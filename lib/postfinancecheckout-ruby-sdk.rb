@@ -1,5 +1,5 @@
 =begin
-PostFinance Checkout API: 2.0.2
+PostFinance Checkout API: 2.1.0
 
 The PostFinance Checkout API allows an easy interaction with the PostFinance Checkout web service.
 
@@ -269,6 +269,7 @@ require 'postfinancecheckout-ruby-sdk/api/transaction_completion_service_api'
 require 'postfinancecheckout-ruby-sdk/api/transaction_iframe_service_api'
 require 'postfinancecheckout-ruby-sdk/api/transaction_invoice_comment_service_api'
 require 'postfinancecheckout-ruby-sdk/api/transaction_invoice_service_api'
+require 'postfinancecheckout-ruby-sdk/api/transaction_lightbox_service_api'
 require 'postfinancecheckout-ruby-sdk/api/transaction_mobile_sdk_service_api'
 require 'postfinancecheckout-ruby-sdk/api/transaction_payment_page_service_api'
 require 'postfinancecheckout-ruby-sdk/api/transaction_service_api'

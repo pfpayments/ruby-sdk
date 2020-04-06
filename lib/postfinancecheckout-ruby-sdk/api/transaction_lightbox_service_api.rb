@@ -22,7 +22,7 @@ limitations under the License.
 require "uri"
 
 module PostFinanceCheckout
-  class TransactionIframeService
+  class TransactionLightboxService
     attr_accessor :api_client
 
     def initialize(api_client = ApiClient.default)
@@ -30,7 +30,7 @@ module PostFinanceCheckout
     end
 
     # Build JavaScript URL
-    # This operation creates the URL which can be used to embed the JavaScript for handling the iFrame checkout flow.
+    # This operation creates the URL which can be used to embed the JavaScript for handling the Lightbox checkout flow.
     # @param space_id 
     # @param id The id of the transaction which should be returned.
     # @param [Hash] opts the optional parameters
@@ -41,21 +41,21 @@ module PostFinanceCheckout
     end
 
     # Build JavaScript URL
-    # This operation creates the URL which can be used to embed the JavaScript for handling the iFrame checkout flow.
+    # This operation creates the URL which can be used to embed the JavaScript for handling the Lightbox checkout flow.
     # @param space_id 
     # @param id The id of the transaction which should be returned.
     # @param [Hash] opts the optional parameters
     # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
     def javascript_url_with_http_info(space_id, id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: TransactionIframeService.javascript_url ..."
+        @api_client.config.logger.debug "Calling API: TransactionLightboxService.javascript_url ..."
       end
       # verify the required parameter 'space_id' is set
-      fail ArgumentError, "Missing the required parameter 'space_id' when calling TransactionIframeService.javascript_url" if space_id.nil?
+      fail ArgumentError, "Missing the required parameter 'space_id' when calling TransactionLightboxService.javascript_url" if space_id.nil?
       # verify the required parameter 'id' is set
-      fail ArgumentError, "Missing the required parameter 'id' when calling TransactionIframeService.javascript_url" if id.nil?
+      fail ArgumentError, "Missing the required parameter 'id' when calling TransactionLightboxService.javascript_url" if id.nil?
       # resource path
-      local_var_path = "/transaction-iframe/javascript-url".sub('{format}','json')
+      local_var_path = "/transaction-lightbox/javascript-url".sub('{format}','json')
 
       # query parameters
       query_params = {}
@@ -87,7 +87,7 @@ module PostFinanceCheckout
         :auth_names => auth_names,
         :return_type => 'String')
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: TransactionIframeService#javascript_url\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: TransactionLightboxService#javascript_url\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

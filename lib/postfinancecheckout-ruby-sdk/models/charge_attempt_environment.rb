@@ -1,5 +1,5 @@
 =begin
-PostFinance Checkout API: 2.0.2
+PostFinance Checkout API: 2.1.0
 
 The PostFinance Checkout API allows an easy interaction with the PostFinance Checkout web service.
 

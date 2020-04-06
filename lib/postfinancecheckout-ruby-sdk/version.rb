@@ -1,5 +1,5 @@
 =begin
-PostFinance Checkout API: 2.0.2
+PostFinance Checkout API: 2.1.0
 
 The PostFinance Checkout API allows an easy interaction with the PostFinance Checkout web service.
 
@@ -20,5 +20,5 @@ limitations under the License.
 =end
 
 module PostFinanceCheckout
-  VERSION = '2.0.2'
+  VERSION = '2.1.0'
 end
