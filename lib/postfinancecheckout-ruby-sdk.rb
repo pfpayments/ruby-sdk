@@ -1,5 +1,5 @@
 =begin
-PostFinance Checkout API: 2.2.0
+PostFinance Checkout API: 2.2.1
 
 The PostFinance Checkout API allows an easy interaction with the PostFinance Checkout web service.
 
@@ -211,6 +211,7 @@ require 'postfinancecheckout-ruby-sdk/models/customer_create'
 require 'postfinancecheckout-ruby-sdk/models/delivery_indication'
 require 'postfinancecheckout-ruby-sdk/models/human_user_create'
 require 'postfinancecheckout-ruby-sdk/models/human_user_update'
+require 'postfinancecheckout-ruby-sdk/models/payment_terminal_contact_address'
 require 'postfinancecheckout-ruby-sdk/models/refund_comment_active'
 require 'postfinancecheckout-ruby-sdk/models/refund_comment_create'
 require 'postfinancecheckout-ruby-sdk/models/space_create'

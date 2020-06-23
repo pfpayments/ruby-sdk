@@ -1,5 +1,5 @@
 =begin
-PostFinance Checkout API: 2.2.0
+PostFinance Checkout API: 2.2.1
 
 The PostFinance Checkout API allows an easy interaction with the PostFinance Checkout web service.
 
@@ -76,13 +76,28 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if !@unique_id.nil? && @unique_id.to_s.length > 200
+        invalid_properties.push('invalid value for "unique_id", the character length must be smaller than or equal to 200.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if !@unique_id.nil? && @unique_id.to_s.length > 200
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] unique_id Value to be assigned
+    def unique_id=(unique_id)
+      if !unique_id.nil? && unique_id.to_s.length > 200
+        fail ArgumentError, 'invalid value for "unique_id", the character length must be smaller than or equal to 200.'
+      end
+
+      @unique_id = unique_id
     end
 
     # Checks equality by comparing each attribute.

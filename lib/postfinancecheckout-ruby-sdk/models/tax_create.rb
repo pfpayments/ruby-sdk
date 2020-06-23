@@ -1,5 +1,5 @@
 =begin
-PostFinance Checkout API: 2.2.0
+PostFinance Checkout API: 2.2.1
 
 The PostFinance Checkout API allows an easy interaction with the PostFinance Checkout web service.
 
@@ -75,6 +75,14 @@ module PostFinanceCheckout
         invalid_properties.push('invalid value for "title", title cannot be nil.')
       end
 
+      if @title.to_s.length > 40
+        invalid_properties.push('invalid value for "title", the character length must be smaller than or equal to 40.')
+      end
+
+      if @title.to_s.length < 2
+        invalid_properties.push('invalid value for "title", the character length must be great than or equal to 2.')
+      end
+
       invalid_properties
     end
 
@@ -83,7 +91,27 @@ module PostFinanceCheckout
     def valid?
       return false if @rate.nil?
       return false if @title.nil?
+      return false if @title.to_s.length > 40
+      return false if @title.to_s.length < 2
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] title Value to be assigned
+    def title=(title)
+      if title.nil?
+        fail ArgumentError, 'title cannot be nil'
+      end
+
+      if title.to_s.length > 40
+        fail ArgumentError, 'invalid value for "title", the character length must be smaller than or equal to 40.'
+      end
+
+      if title.to_s.length < 2
+        fail ArgumentError, 'invalid value for "title", the character length must be great than or equal to 2.'
+      end
+
+      @title = title
     end
 
     # Checks equality by comparing each attribute.
