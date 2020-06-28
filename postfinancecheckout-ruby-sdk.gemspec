@@ -1,11 +1,7 @@
 # -*- encoding: utf-8 -*-
 #
 =begin
-PostFinance Checkout API: 2.2.1
-
 The PostFinance Checkout API allows an easy interaction with the PostFinance Checkout web service.
-
-
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
