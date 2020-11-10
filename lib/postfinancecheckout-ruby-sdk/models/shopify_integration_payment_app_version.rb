@@ -15,6 +15,20 @@ limitations under the License.
 
 =end
 
+require 'date'
+
 module PostFinanceCheckout
-  VERSION = '2.2.4'
+  class ShopifyIntegrationPaymentAppVersion
+    
+    API_2019_07 = 'API_2019_07'.freeze
+
+    # Builds the enum from string
+    # @param [String] The enum value in the form of the string
+    # @return [String] The enum value
+    def build_from_hash(value)
+      constantValues = ShopifyIntegrationPaymentAppVersion.constants.select { |c| ShopifyIntegrationPaymentAppVersion::const_get(c) == value }
+      raise "Invalid ENUM value #{value} for class #ShopifyIntegrationPaymentAppVersion" if constantValues.empty?
+      value
+    end
+  end
 end

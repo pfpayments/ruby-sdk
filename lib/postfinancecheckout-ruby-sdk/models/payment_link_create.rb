@@ -18,42 +18,87 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class TransactionCompletionRequest
-    # The external ID helps to identify the entity and a subsequent creation of an entity with the same ID will not create a new entity.
-    attr_accessor :external_id
+  # The payment link defines an URL to automatically create transactions.
+  class PaymentLinkCreate
+    # The allowed payment method configurations restrict the payment methods which can be used with this payment link.
+    attr_accessor :allowed_payment_method_configurations
 
-    # 
-    attr_accessor :invoice_merchant_reference
+    # The payment link can be conducted in a specific space view. The space view may apply a specific design to the payment page.
+    attr_accessor :applied_space_view
 
-    # The last completion flag indicates if this is the last completion. After the last completion is created no further completions can be issued.
-    attr_accessor :last_completion
+    # The available from date defines the earliest date on which the payment link can be used. When no date is specified there will be no restriction.
+    attr_accessor :available_from
 
-    # The line items which will be used to complete the transaction.
+    # The available from date defines the latest date on which the payment link can be used to initialize a transaction. When no date is specified there will be no restriction.
+    attr_accessor :available_until
+
+    # By making the billing address required the transaction can only be created when a billing address is provided within the request.
+    attr_accessor :billing_address_required
+
+    # The currency defines in which currency the payment is executed in. If no currency is defined it has to be specified within the request parameter 'currency'.
+    attr_accessor :currency
+
+    # The language defines the language of the payment page. If no language is provided it can be provided through the request parameter.
+    attr_accessor :language
+
+    # The line items allows to define the line items for this payment link. When the line items are defined they cannot be overridden through the request parameters.
     attr_accessor :line_items
 
-    # The ID of the transaction which should be completed.
-    attr_accessor :transaction_id
+    # The maximal number of transactions limits the number of transactions which can be created with this payment link.
+    attr_accessor :maximal_number_of_transactions
+
+    # The payment link name is used internally to identify the payment link. For example the name is used within search fields and hence it should be distinct and descriptive.
+    attr_accessor :name
+
+    # By making the shipping address required the transaction can only be created when a shipping address is provided within the request.
+    attr_accessor :shipping_address_required
+
+    # 
+    attr_accessor :state
+
+    # The external id helps to identify the entity and a subsequent creation of an entity with the same ID will not create a new entity.
+    attr_accessor :external_id
+
+    # The protection mode determines if the payment link is protected against tampering and in what way.
+    attr_accessor :protection_mode
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'external_id' => :'externalId',
-        :'invoice_merchant_reference' => :'invoiceMerchantReference',
-        :'last_completion' => :'lastCompletion',
+        :'allowed_payment_method_configurations' => :'allowedPaymentMethodConfigurations',
+        :'applied_space_view' => :'appliedSpaceView',
+        :'available_from' => :'availableFrom',
+        :'available_until' => :'availableUntil',
+        :'billing_address_required' => :'billingAddressRequired',
+        :'currency' => :'currency',
+        :'language' => :'language',
         :'line_items' => :'lineItems',
-        :'transaction_id' => :'transactionId'
+        :'maximal_number_of_transactions' => :'maximalNumberOfTransactions',
+        :'name' => :'name',
+        :'shipping_address_required' => :'shippingAddressRequired',
+        :'state' => :'state',
+        :'external_id' => :'externalId',
+        :'protection_mode' => :'protectionMode'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
+        :'allowed_payment_method_configurations' => :'Array<PaymentMethodConfiguration>',
+        :'applied_space_view' => :'Integer',
+        :'available_from' => :'DateTime',
+        :'available_until' => :'DateTime',
+        :'billing_address_required' => :'BOOLEAN',
+        :'currency' => :'String',
+        :'language' => :'String',
+        :'line_items' => :'Array<LineItemCreate>',
+        :'maximal_number_of_transactions' => :'Integer',
+        :'name' => :'String',
+        :'shipping_address_required' => :'BOOLEAN',
+        :'state' => :'CreationEntityState',
         :'external_id' => :'String',
-        :'invoice_merchant_reference' => :'String',
-        :'last_completion' => :'BOOLEAN',
-        :'line_items' => :'Array<CompletionLineItemCreate>',
-        :'transaction_id' => :'Integer'
+        :'protection_mode' => :'PaymentLinkProtectionMode'
       }
     end
 
@@ -65,16 +110,34 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'externalId')
-        self.external_id = attributes[:'externalId']
+      if attributes.has_key?(:'allowedPaymentMethodConfigurations')
+        if (value = attributes[:'allowedPaymentMethodConfigurations']).is_a?(Array)
+          self.allowed_payment_method_configurations = value
+        end
       end
 
-      if attributes.has_key?(:'invoiceMerchantReference')
-        self.invoice_merchant_reference = attributes[:'invoiceMerchantReference']
+      if attributes.has_key?(:'appliedSpaceView')
+        self.applied_space_view = attributes[:'appliedSpaceView']
       end
 
-      if attributes.has_key?(:'lastCompletion')
-        self.last_completion = attributes[:'lastCompletion']
+      if attributes.has_key?(:'availableFrom')
+        self.available_from = attributes[:'availableFrom']
+      end
+
+      if attributes.has_key?(:'availableUntil')
+        self.available_until = attributes[:'availableUntil']
+      end
+
+      if attributes.has_key?(:'billingAddressRequired')
+        self.billing_address_required = attributes[:'billingAddressRequired']
+      end
+
+      if attributes.has_key?(:'currency')
+        self.currency = attributes[:'currency']
+      end
+
+      if attributes.has_key?(:'language')
+        self.language = attributes[:'language']
       end
 
       if attributes.has_key?(:'lineItems')
@@ -83,8 +146,28 @@ module PostFinanceCheckout
         end
       end
 
-      if attributes.has_key?(:'transactionId')
-        self.transaction_id = attributes[:'transactionId']
+      if attributes.has_key?(:'maximalNumberOfTransactions')
+        self.maximal_number_of_transactions = attributes[:'maximalNumberOfTransactions']
+      end
+
+      if attributes.has_key?(:'name')
+        self.name = attributes[:'name']
+      end
+
+      if attributes.has_key?(:'shippingAddressRequired')
+        self.shipping_address_required = attributes[:'shippingAddressRequired']
+      end
+
+      if attributes.has_key?(:'state')
+        self.state = attributes[:'state']
+      end
+
+      if attributes.has_key?(:'externalId')
+        self.external_id = attributes[:'externalId']
+      end
+
+      if attributes.has_key?(:'protectionMode')
+        self.protection_mode = attributes[:'protectionMode']
       end
     end
 
@@ -92,6 +175,10 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if !@name.nil? && @name.to_s.length > 100
+        invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 100.')
+      end
+
       if @external_id.nil?
         invalid_properties.push('invalid value for "external_id", external_id cannot be nil.')
       end
@@ -104,31 +191,27 @@ module PostFinanceCheckout
         invalid_properties.push('invalid value for "external_id", the character length must be great than or equal to 1.')
       end
 
-      if !@invoice_merchant_reference.nil? && @invoice_merchant_reference.to_s.length > 100
-        invalid_properties.push('invalid value for "invoice_merchant_reference", the character length must be smaller than or equal to 100.')
-      end
-
-      if @last_completion.nil?
-        invalid_properties.push('invalid value for "last_completion", last_completion cannot be nil.')
-      end
-
-      if @transaction_id.nil?
-        invalid_properties.push('invalid value for "transaction_id", transaction_id cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if !@name.nil? && @name.to_s.length > 100
       return false if @external_id.nil?
       return false if @external_id.to_s.length > 100
       return false if @external_id.to_s.length < 1
-      return false if !@invoice_merchant_reference.nil? && @invoice_merchant_reference.to_s.length > 100
-      return false if @last_completion.nil?
-      return false if @transaction_id.nil?
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] name Value to be assigned
+    def name=(name)
+      if !name.nil? && name.to_s.length > 100
+        fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 100.'
+      end
+
+      @name = name
     end
 
     # Custom attribute writer method with validation
@@ -149,26 +232,25 @@ module PostFinanceCheckout
       @external_id = external_id
     end
 
-    # Custom attribute writer method with validation
-    # @param [Object] invoice_merchant_reference Value to be assigned
-    def invoice_merchant_reference=(invoice_merchant_reference)
-      if !invoice_merchant_reference.nil? && invoice_merchant_reference.to_s.length > 100
-        fail ArgumentError, 'invalid value for "invoice_merchant_reference", the character length must be smaller than or equal to 100.'
-      end
-
-      @invoice_merchant_reference = invoice_merchant_reference
-    end
-
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          external_id == o.external_id &&
-          invoice_merchant_reference == o.invoice_merchant_reference &&
-          last_completion == o.last_completion &&
+          allowed_payment_method_configurations == o.allowed_payment_method_configurations &&
+          applied_space_view == o.applied_space_view &&
+          available_from == o.available_from &&
+          available_until == o.available_until &&
+          billing_address_required == o.billing_address_required &&
+          currency == o.currency &&
+          language == o.language &&
           line_items == o.line_items &&
-          transaction_id == o.transaction_id
+          maximal_number_of_transactions == o.maximal_number_of_transactions &&
+          name == o.name &&
+          shipping_address_required == o.shipping_address_required &&
+          state == o.state &&
+          external_id == o.external_id &&
+          protection_mode == o.protection_mode
     end
 
     # @see the `==` method
@@ -180,7 +262,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [external_id, invoice_merchant_reference, last_completion, line_items, transaction_id].hash
+      [allowed_payment_method_configurations, applied_space_view, available_from, available_until, billing_address_required, currency, language, line_items, maximal_number_of_transactions, name, shipping_address_required, state, external_id, protection_mode].hash
     end
 
     # Builds the object from hash

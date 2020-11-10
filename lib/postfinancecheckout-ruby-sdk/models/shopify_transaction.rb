@@ -19,46 +19,76 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class SalesChannel
-    # 
-    attr_accessor :description
-
-    # 
-    attr_accessor :icon
-
+  class ShopifyTransaction
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
 
-    # 
-    attr_accessor :name
+    # The linked space id holds the ID of the space to which the entity belongs to.
+    attr_accessor :linked_space_id
 
     # 
-    attr_accessor :parent
+    attr_accessor :linked_transaction
 
     # 
-    attr_accessor :sort_order
+    attr_accessor :checkout_id
+
+    # The created on date indicates the date on which the entity was stored into the database.
+    attr_accessor :created_on
+
+    # 
+    attr_accessor :integration
+
+    # 
+    attr_accessor :order_id
+
+    # 
+    attr_accessor :order_name
+
+    # The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
+    attr_accessor :planned_purge_date
+
+    # 
+    attr_accessor :state
+
+    # 
+    attr_accessor :transaction
+
+    # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
+    attr_accessor :version
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'description' => :'description',
-        :'icon' => :'icon',
         :'id' => :'id',
-        :'name' => :'name',
-        :'parent' => :'parent',
-        :'sort_order' => :'sortOrder'
+        :'linked_space_id' => :'linkedSpaceId',
+        :'linked_transaction' => :'linkedTransaction',
+        :'checkout_id' => :'checkoutId',
+        :'created_on' => :'createdOn',
+        :'integration' => :'integration',
+        :'order_id' => :'orderId',
+        :'order_name' => :'orderName',
+        :'planned_purge_date' => :'plannedPurgeDate',
+        :'state' => :'state',
+        :'transaction' => :'transaction',
+        :'version' => :'version'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'description' => :'Hash<String, String>',
-        :'icon' => :'String',
         :'id' => :'Integer',
-        :'name' => :'Hash<String, String>',
-        :'parent' => :'SalesChannel',
-        :'sort_order' => :'Integer'
+        :'linked_space_id' => :'Integer',
+        :'linked_transaction' => :'Integer',
+        :'checkout_id' => :'String',
+        :'created_on' => :'DateTime',
+        :'integration' => :'ShopifyIntegration',
+        :'order_id' => :'String',
+        :'order_name' => :'String',
+        :'planned_purge_date' => :'DateTime',
+        :'state' => :'ShopifyTransactionState',
+        :'transaction' => :'Transaction',
+        :'version' => :'Integer'
       }
     end
 
@@ -70,32 +100,52 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'description')
-        if (value = attributes[:'description']).is_a?(Hash)
-          self.description = value
-        end
-      end
-
-      if attributes.has_key?(:'icon')
-        self.icon = attributes[:'icon']
-      end
-
       if attributes.has_key?(:'id')
         self.id = attributes[:'id']
       end
 
-      if attributes.has_key?(:'name')
-        if (value = attributes[:'name']).is_a?(Hash)
-          self.name = value
-        end
+      if attributes.has_key?(:'linkedSpaceId')
+        self.linked_space_id = attributes[:'linkedSpaceId']
       end
 
-      if attributes.has_key?(:'parent')
-        self.parent = attributes[:'parent']
+      if attributes.has_key?(:'linkedTransaction')
+        self.linked_transaction = attributes[:'linkedTransaction']
       end
 
-      if attributes.has_key?(:'sortOrder')
-        self.sort_order = attributes[:'sortOrder']
+      if attributes.has_key?(:'checkoutId')
+        self.checkout_id = attributes[:'checkoutId']
+      end
+
+      if attributes.has_key?(:'createdOn')
+        self.created_on = attributes[:'createdOn']
+      end
+
+      if attributes.has_key?(:'integration')
+        self.integration = attributes[:'integration']
+      end
+
+      if attributes.has_key?(:'orderId')
+        self.order_id = attributes[:'orderId']
+      end
+
+      if attributes.has_key?(:'orderName')
+        self.order_name = attributes[:'orderName']
+      end
+
+      if attributes.has_key?(:'plannedPurgeDate')
+        self.planned_purge_date = attributes[:'plannedPurgeDate']
+      end
+
+      if attributes.has_key?(:'state')
+        self.state = attributes[:'state']
+      end
+
+      if attributes.has_key?(:'transaction')
+        self.transaction = attributes[:'transaction']
+      end
+
+      if attributes.has_key?(:'version')
+        self.version = attributes[:'version']
       end
     end
 
@@ -117,12 +167,18 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          description == o.description &&
-          icon == o.icon &&
           id == o.id &&
-          name == o.name &&
-          parent == o.parent &&
-          sort_order == o.sort_order
+          linked_space_id == o.linked_space_id &&
+          linked_transaction == o.linked_transaction &&
+          checkout_id == o.checkout_id &&
+          created_on == o.created_on &&
+          integration == o.integration &&
+          order_id == o.order_id &&
+          order_name == o.order_name &&
+          planned_purge_date == o.planned_purge_date &&
+          state == o.state &&
+          transaction == o.transaction &&
+          version == o.version
     end
 
     # @see the `==` method
@@ -134,7 +190,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [description, icon, id, name, parent, sort_order].hash
+      [id, linked_space_id, linked_transaction, checkout_id, created_on, integration, order_id, order_name, planned_purge_date, state, transaction, version].hash
     end
 
     # Builds the object from hash

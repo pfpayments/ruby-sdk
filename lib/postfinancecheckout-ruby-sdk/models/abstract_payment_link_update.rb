@@ -18,62 +18,71 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class SpaceCreate
-    # 
-    attr_accessor :last_modified_date
+  class AbstractPaymentLinkUpdate
+    # The allowed payment method configurations restrict the payment methods which can be used with this payment link.
+    attr_accessor :allowed_payment_method_configurations
 
-    # The space name is used internally to identify the space in administrative interfaces. For example it is used within search fields and hence it should be distinct and descriptive.
+    # The payment link can be conducted in a specific space view. The space view may apply a specific design to the payment page.
+    attr_accessor :applied_space_view
+
+    # The available from date defines the earliest date on which the payment link can be used. When no date is specified there will be no restriction.
+    attr_accessor :available_from
+
+    # The available from date defines the latest date on which the payment link can be used to initialize a transaction. When no date is specified there will be no restriction.
+    attr_accessor :available_until
+
+    # By making the billing address required the transaction can only be created when a billing address is provided within the request.
+    attr_accessor :billing_address_required
+
+    # The currency defines in which currency the payment is executed in. If no currency is defined it has to be specified within the request parameter 'currency'.
+    attr_accessor :currency
+
+    # The language defines the language of the payment page. If no language is provided it can be provided through the request parameter.
+    attr_accessor :language
+
+    # The line items allows to define the line items for this payment link. When the line items are defined they cannot be overridden through the request parameters.
+    attr_accessor :line_items
+
+    # The maximal number of transactions limits the number of transactions which can be created with this payment link.
+    attr_accessor :maximal_number_of_transactions
+
+    # The payment link name is used internally to identify the payment link. For example the name is used within search fields and hence it should be distinct and descriptive.
     attr_accessor :name
 
-    # The address to use in communication with clients for example in email, documents etc.
-    attr_accessor :postal_address
-
-    # This is the currency that is used to display aggregated amounts in the space.
-    attr_accessor :primary_currency
-
-    # The request limit defines the maximum number of API request accepted within 2 minutes for this space. This limit can only be changed with special privileges.
-    attr_accessor :request_limit
-
-    # 
-    attr_accessor :state
-
-    # The email address provided as contact addresses will be informed about technical issues or errors triggered by the space.
-    attr_accessor :technical_contact_addresses
-
-    # The time zone assigned to the space determines the time offset for calculating dates within the space. This is typically used for background processed which needs to be triggered on a specific hour within the day. Changing the space time zone will not change the display of dates.
-    attr_accessor :time_zone
-
-    # The account to which the space belongs to.
-    attr_accessor :account
+    # By making the shipping address required the transaction can only be created when a shipping address is provided within the request.
+    attr_accessor :shipping_address_required
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'last_modified_date' => :'lastModifiedDate',
+        :'allowed_payment_method_configurations' => :'allowedPaymentMethodConfigurations',
+        :'applied_space_view' => :'appliedSpaceView',
+        :'available_from' => :'availableFrom',
+        :'available_until' => :'availableUntil',
+        :'billing_address_required' => :'billingAddressRequired',
+        :'currency' => :'currency',
+        :'language' => :'language',
+        :'line_items' => :'lineItems',
+        :'maximal_number_of_transactions' => :'maximalNumberOfTransactions',
         :'name' => :'name',
-        :'postal_address' => :'postalAddress',
-        :'primary_currency' => :'primaryCurrency',
-        :'request_limit' => :'requestLimit',
-        :'state' => :'state',
-        :'technical_contact_addresses' => :'technicalContactAddresses',
-        :'time_zone' => :'timeZone',
-        :'account' => :'account'
+        :'shipping_address_required' => :'shippingAddressRequired'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'last_modified_date' => :'DateTime',
+        :'allowed_payment_method_configurations' => :'Array<PaymentMethodConfiguration>',
+        :'applied_space_view' => :'Integer',
+        :'available_from' => :'DateTime',
+        :'available_until' => :'DateTime',
+        :'billing_address_required' => :'BOOLEAN',
+        :'currency' => :'String',
+        :'language' => :'String',
+        :'line_items' => :'Array<LineItemCreate>',
+        :'maximal_number_of_transactions' => :'Integer',
         :'name' => :'String',
-        :'postal_address' => :'SpaceAddressCreate',
-        :'primary_currency' => :'String',
-        :'request_limit' => :'Integer',
-        :'state' => :'CreationEntityState',
-        :'technical_contact_addresses' => :'Array<String>',
-        :'time_zone' => :'String',
-        :'account' => :'Integer'
+        :'shipping_address_required' => :'BOOLEAN'
       }
     end
 
@@ -85,42 +94,52 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'lastModifiedDate')
-        self.last_modified_date = attributes[:'lastModifiedDate']
+      if attributes.has_key?(:'allowedPaymentMethodConfigurations')
+        if (value = attributes[:'allowedPaymentMethodConfigurations']).is_a?(Array)
+          self.allowed_payment_method_configurations = value
+        end
+      end
+
+      if attributes.has_key?(:'appliedSpaceView')
+        self.applied_space_view = attributes[:'appliedSpaceView']
+      end
+
+      if attributes.has_key?(:'availableFrom')
+        self.available_from = attributes[:'availableFrom']
+      end
+
+      if attributes.has_key?(:'availableUntil')
+        self.available_until = attributes[:'availableUntil']
+      end
+
+      if attributes.has_key?(:'billingAddressRequired')
+        self.billing_address_required = attributes[:'billingAddressRequired']
+      end
+
+      if attributes.has_key?(:'currency')
+        self.currency = attributes[:'currency']
+      end
+
+      if attributes.has_key?(:'language')
+        self.language = attributes[:'language']
+      end
+
+      if attributes.has_key?(:'lineItems')
+        if (value = attributes[:'lineItems']).is_a?(Array)
+          self.line_items = value
+        end
+      end
+
+      if attributes.has_key?(:'maximalNumberOfTransactions')
+        self.maximal_number_of_transactions = attributes[:'maximalNumberOfTransactions']
       end
 
       if attributes.has_key?(:'name')
         self.name = attributes[:'name']
       end
 
-      if attributes.has_key?(:'postalAddress')
-        self.postal_address = attributes[:'postalAddress']
-      end
-
-      if attributes.has_key?(:'primaryCurrency')
-        self.primary_currency = attributes[:'primaryCurrency']
-      end
-
-      if attributes.has_key?(:'requestLimit')
-        self.request_limit = attributes[:'requestLimit']
-      end
-
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
-      end
-
-      if attributes.has_key?(:'technicalContactAddresses')
-        if (value = attributes[:'technicalContactAddresses']).is_a?(Array)
-          self.technical_contact_addresses = value
-        end
-      end
-
-      if attributes.has_key?(:'timeZone')
-        self.time_zone = attributes[:'timeZone']
-      end
-
-      if attributes.has_key?(:'account')
-        self.account = attributes[:'account']
+      if attributes.has_key?(:'shippingAddressRequired')
+        self.shipping_address_required = attributes[:'shippingAddressRequired']
       end
     end
 
@@ -128,16 +147,8 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@name.nil? && @name.to_s.length > 200
-        invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 200.')
-      end
-
-      if !@name.nil? && @name.to_s.length < 3
-        invalid_properties.push('invalid value for "name", the character length must be great than or equal to 3.')
-      end
-
-      if @account.nil?
-        invalid_properties.push('invalid value for "account", account cannot be nil.')
+      if !@name.nil? && @name.to_s.length > 100
+        invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 100.')
       end
 
       invalid_properties
@@ -146,21 +157,15 @@ module PostFinanceCheckout
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@name.nil? && @name.to_s.length > 200
-      return false if !@name.nil? && @name.to_s.length < 3
-      return false if @account.nil?
+      return false if !@name.nil? && @name.to_s.length > 100
       true
     end
 
     # Custom attribute writer method with validation
     # @param [Object] name Value to be assigned
     def name=(name)
-      if !name.nil? && name.to_s.length > 200
-        fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 200.'
-      end
-
-      if !name.nil? && name.to_s.length < 3
-        fail ArgumentError, 'invalid value for "name", the character length must be great than or equal to 3.'
+      if !name.nil? && name.to_s.length > 100
+        fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 100.'
       end
 
       @name = name
@@ -171,15 +176,17 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          last_modified_date == o.last_modified_date &&
+          allowed_payment_method_configurations == o.allowed_payment_method_configurations &&
+          applied_space_view == o.applied_space_view &&
+          available_from == o.available_from &&
+          available_until == o.available_until &&
+          billing_address_required == o.billing_address_required &&
+          currency == o.currency &&
+          language == o.language &&
+          line_items == o.line_items &&
+          maximal_number_of_transactions == o.maximal_number_of_transactions &&
           name == o.name &&
-          postal_address == o.postal_address &&
-          primary_currency == o.primary_currency &&
-          request_limit == o.request_limit &&
-          state == o.state &&
-          technical_contact_addresses == o.technical_contact_addresses &&
-          time_zone == o.time_zone &&
-          account == o.account
+          shipping_address_required == o.shipping_address_required
     end
 
     # @see the `==` method
@@ -191,7 +198,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [last_modified_date, name, postal_address, primary_currency, request_limit, state, technical_contact_addresses, time_zone, account].hash
+      [allowed_payment_method_configurations, applied_space_view, available_from, available_until, billing_address_required, currency, language, line_items, maximal_number_of_transactions, name, shipping_address_required].hash
     end
 
     # Builds the object from hash

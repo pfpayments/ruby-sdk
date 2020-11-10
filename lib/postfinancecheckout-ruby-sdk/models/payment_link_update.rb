@@ -18,87 +18,82 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class PaymentConnectorConfiguration
-    # This property indicates if the connector is currently used for processing transactions. In case either the payment method configuration or the processor configuration is not active the connector will not be used even though the connector state is active.
-    attr_accessor :applicable_for_transaction_processing
-
-    # If a transaction meet all selected conditions the connector configuration will be used to process the transaction otherwise the next connector configuration in line will be chosen according to the priorities.
-    attr_accessor :conditions
-
-    # 
-    attr_accessor :connector
-
-    # Defines the sales channels the connector configuration is enabled for. In case the set is empty, the connector configuration is enabled for all sales channels.
-    attr_accessor :enabled_sales_channels
-
-    # The connector configuration is only enabled for the selected space views. In case the set is empty the connector configuration is enabled for all space views.
-    attr_accessor :enabled_space_views
-
+  # The payment link defines an URL to automatically create transactions.
+  class PaymentLinkUpdate
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
-
-    # The linked space id holds the ID of the space to which the entity belongs to.
-    attr_accessor :linked_space_id
-
-    # The connector configuration name is used internally to identify the configuration in administrative interfaces. For example it is used within search fields and hence it should be distinct and descriptive.
-    attr_accessor :name
-
-    # 
-    attr_accessor :payment_method_configuration
-
-    # The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
-    attr_accessor :planned_purge_date
-
-    # The priority will define the order of choice of the connector configurations. The lower the value, the higher the priority is going to be. This value can also be a negative number in case you are adding a new configuration that you want to have a high priority and you dont want to change the priority of all the other configurations.
-    attr_accessor :priority
-
-    # 
-    attr_accessor :processor_configuration
-
-    # 
-    attr_accessor :state
 
     # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
     attr_accessor :version
 
+    # The allowed payment method configurations restrict the payment methods which can be used with this payment link.
+    attr_accessor :allowed_payment_method_configurations
+
+    # The payment link can be conducted in a specific space view. The space view may apply a specific design to the payment page.
+    attr_accessor :applied_space_view
+
+    # The available from date defines the earliest date on which the payment link can be used. When no date is specified there will be no restriction.
+    attr_accessor :available_from
+
+    # The available from date defines the latest date on which the payment link can be used to initialize a transaction. When no date is specified there will be no restriction.
+    attr_accessor :available_until
+
+    # By making the billing address required the transaction can only be created when a billing address is provided within the request.
+    attr_accessor :billing_address_required
+
+    # The currency defines in which currency the payment is executed in. If no currency is defined it has to be specified within the request parameter 'currency'.
+    attr_accessor :currency
+
+    # The language defines the language of the payment page. If no language is provided it can be provided through the request parameter.
+    attr_accessor :language
+
+    # The line items allows to define the line items for this payment link. When the line items are defined they cannot be overridden through the request parameters.
+    attr_accessor :line_items
+
+    # The maximal number of transactions limits the number of transactions which can be created with this payment link.
+    attr_accessor :maximal_number_of_transactions
+
+    # The payment link name is used internally to identify the payment link. For example the name is used within search fields and hence it should be distinct and descriptive.
+    attr_accessor :name
+
+    # By making the shipping address required the transaction can only be created when a shipping address is provided within the request.
+    attr_accessor :shipping_address_required
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'applicable_for_transaction_processing' => :'applicableForTransactionProcessing',
-        :'conditions' => :'conditions',
-        :'connector' => :'connector',
-        :'enabled_sales_channels' => :'enabledSalesChannels',
-        :'enabled_space_views' => :'enabledSpaceViews',
         :'id' => :'id',
-        :'linked_space_id' => :'linkedSpaceId',
+        :'version' => :'version',
+        :'allowed_payment_method_configurations' => :'allowedPaymentMethodConfigurations',
+        :'applied_space_view' => :'appliedSpaceView',
+        :'available_from' => :'availableFrom',
+        :'available_until' => :'availableUntil',
+        :'billing_address_required' => :'billingAddressRequired',
+        :'currency' => :'currency',
+        :'language' => :'language',
+        :'line_items' => :'lineItems',
+        :'maximal_number_of_transactions' => :'maximalNumberOfTransactions',
         :'name' => :'name',
-        :'payment_method_configuration' => :'paymentMethodConfiguration',
-        :'planned_purge_date' => :'plannedPurgeDate',
-        :'priority' => :'priority',
-        :'processor_configuration' => :'processorConfiguration',
-        :'state' => :'state',
-        :'version' => :'version'
+        :'shipping_address_required' => :'shippingAddressRequired'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'applicable_for_transaction_processing' => :'BOOLEAN',
-        :'conditions' => :'Array<Integer>',
-        :'connector' => :'Integer',
-        :'enabled_sales_channels' => :'Array<SalesChannel>',
-        :'enabled_space_views' => :'Array<Integer>',
         :'id' => :'Integer',
-        :'linked_space_id' => :'Integer',
+        :'version' => :'Integer',
+        :'allowed_payment_method_configurations' => :'Array<PaymentMethodConfiguration>',
+        :'applied_space_view' => :'Integer',
+        :'available_from' => :'DateTime',
+        :'available_until' => :'DateTime',
+        :'billing_address_required' => :'BOOLEAN',
+        :'currency' => :'String',
+        :'language' => :'String',
+        :'line_items' => :'Array<LineItemCreate>',
+        :'maximal_number_of_transactions' => :'Integer',
         :'name' => :'String',
-        :'payment_method_configuration' => :'PaymentMethodConfiguration',
-        :'planned_purge_date' => :'DateTime',
-        :'priority' => :'Integer',
-        :'processor_configuration' => :'PaymentProcessorConfiguration',
-        :'state' => :'CreationEntityState',
-        :'version' => :'Integer'
+        :'shipping_address_required' => :'BOOLEAN'
       }
     end
 
@@ -110,66 +105,60 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'applicableForTransactionProcessing')
-        self.applicable_for_transaction_processing = attributes[:'applicableForTransactionProcessing']
-      end
-
-      if attributes.has_key?(:'conditions')
-        if (value = attributes[:'conditions']).is_a?(Array)
-          self.conditions = value
-        end
-      end
-
-      if attributes.has_key?(:'connector')
-        self.connector = attributes[:'connector']
-      end
-
-      if attributes.has_key?(:'enabledSalesChannels')
-        if (value = attributes[:'enabledSalesChannels']).is_a?(Array)
-          self.enabled_sales_channels = value
-        end
-      end
-
-      if attributes.has_key?(:'enabledSpaceViews')
-        if (value = attributes[:'enabledSpaceViews']).is_a?(Array)
-          self.enabled_space_views = value
-        end
-      end
-
       if attributes.has_key?(:'id')
         self.id = attributes[:'id']
       end
 
-      if attributes.has_key?(:'linkedSpaceId')
-        self.linked_space_id = attributes[:'linkedSpaceId']
+      if attributes.has_key?(:'version')
+        self.version = attributes[:'version']
+      end
+
+      if attributes.has_key?(:'allowedPaymentMethodConfigurations')
+        if (value = attributes[:'allowedPaymentMethodConfigurations']).is_a?(Array)
+          self.allowed_payment_method_configurations = value
+        end
+      end
+
+      if attributes.has_key?(:'appliedSpaceView')
+        self.applied_space_view = attributes[:'appliedSpaceView']
+      end
+
+      if attributes.has_key?(:'availableFrom')
+        self.available_from = attributes[:'availableFrom']
+      end
+
+      if attributes.has_key?(:'availableUntil')
+        self.available_until = attributes[:'availableUntil']
+      end
+
+      if attributes.has_key?(:'billingAddressRequired')
+        self.billing_address_required = attributes[:'billingAddressRequired']
+      end
+
+      if attributes.has_key?(:'currency')
+        self.currency = attributes[:'currency']
+      end
+
+      if attributes.has_key?(:'language')
+        self.language = attributes[:'language']
+      end
+
+      if attributes.has_key?(:'lineItems')
+        if (value = attributes[:'lineItems']).is_a?(Array)
+          self.line_items = value
+        end
+      end
+
+      if attributes.has_key?(:'maximalNumberOfTransactions')
+        self.maximal_number_of_transactions = attributes[:'maximalNumberOfTransactions']
       end
 
       if attributes.has_key?(:'name')
         self.name = attributes[:'name']
       end
 
-      if attributes.has_key?(:'paymentMethodConfiguration')
-        self.payment_method_configuration = attributes[:'paymentMethodConfiguration']
-      end
-
-      if attributes.has_key?(:'plannedPurgeDate')
-        self.planned_purge_date = attributes[:'plannedPurgeDate']
-      end
-
-      if attributes.has_key?(:'priority')
-        self.priority = attributes[:'priority']
-      end
-
-      if attributes.has_key?(:'processorConfiguration')
-        self.processor_configuration = attributes[:'processorConfiguration']
-      end
-
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
-      end
-
-      if attributes.has_key?(:'version')
-        self.version = attributes[:'version']
+      if attributes.has_key?(:'shippingAddressRequired')
+        self.shipping_address_required = attributes[:'shippingAddressRequired']
       end
     end
 
@@ -177,6 +166,14 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @id.nil?
+        invalid_properties.push('invalid value for "id", id cannot be nil.')
+      end
+
+      if @version.nil?
+        invalid_properties.push('invalid value for "version", version cannot be nil.')
+      end
+
       if !@name.nil? && @name.to_s.length > 100
         invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 100.')
       end
@@ -187,6 +184,8 @@ module PostFinanceCheckout
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if @id.nil?
+      return false if @version.nil?
       return false if !@name.nil? && @name.to_s.length > 100
       true
     end
@@ -206,20 +205,19 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          applicable_for_transaction_processing == o.applicable_for_transaction_processing &&
-          conditions == o.conditions &&
-          connector == o.connector &&
-          enabled_sales_channels == o.enabled_sales_channels &&
-          enabled_space_views == o.enabled_space_views &&
           id == o.id &&
-          linked_space_id == o.linked_space_id &&
+          version == o.version &&
+          allowed_payment_method_configurations == o.allowed_payment_method_configurations &&
+          applied_space_view == o.applied_space_view &&
+          available_from == o.available_from &&
+          available_until == o.available_until &&
+          billing_address_required == o.billing_address_required &&
+          currency == o.currency &&
+          language == o.language &&
+          line_items == o.line_items &&
+          maximal_number_of_transactions == o.maximal_number_of_transactions &&
           name == o.name &&
-          payment_method_configuration == o.payment_method_configuration &&
-          planned_purge_date == o.planned_purge_date &&
-          priority == o.priority &&
-          processor_configuration == o.processor_configuration &&
-          state == o.state &&
-          version == o.version
+          shipping_address_required == o.shipping_address_required
     end
 
     # @see the `==` method
@@ -231,7 +229,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [applicable_for_transaction_processing, conditions, connector, enabled_sales_channels, enabled_space_views, id, linked_space_id, name, payment_method_configuration, planned_purge_date, priority, processor_configuration, state, version].hash
+      [id, version, allowed_payment_method_configurations, applied_space_view, available_from, available_until, billing_address_required, currency, language, line_items, maximal_number_of_transactions, name, shipping_address_required].hash
     end
 
     # Builds the object from hash

@@ -24,8 +24,8 @@ Gem::Specification.new do |s|
   s.name        = "postfinancecheckout-ruby-sdk"
   s.version     = PostFinanceCheckout::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["customweb GmbH"]
-  s.email       = ["info@customweb.com"]
+  s.authors     = ["wallee AG"]
+  s.email       = ["info@wallee.com"]
   s.homepage    = "https://checkout.postfinance.ch/"
   s.summary     = "A ruby wrapper around the PostFinance Checkout API."
   s.description = "The PostFinance Checkout SDK allows an easy interaction with the PostFinance Checkout web service."
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
   s.add_runtime_dependency 'json', '~> 2.3', '>= 2.3.0'
+  s.add_runtime_dependency 'addressable', '~> 2.3', '>= 2.3.0'
 
   
   s.files         = `find *`.split("\n").uniq.sort.select{|f| !f.empty? }

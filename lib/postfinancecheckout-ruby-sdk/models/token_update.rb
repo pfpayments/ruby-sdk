@@ -19,46 +19,56 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class SalesChannel
-    # 
-    attr_accessor :description
+  class TokenUpdate
+    # The customer email address is the email address of the customer.
+    attr_accessor :customer_email_address
+
+    # The customer ID identifies the customer in the merchant system. In case the customer ID has been provided it has to correspond with the customer ID provided on the transaction. The customer ID will not be changed automatically. The merchant system has to provide it.
+    attr_accessor :customer_id
+
+    # When a token is enabled for one-click payments the buyer will be able to select the token within the iFrame or on the payment page to pay with the token. The usage of the token will reduce the number of steps the buyer has to go through. The buyer is linked via the customer ID on the transaction with the token. Means the token will be visible for buyers with the same customer ID. Additionally the payment method has to be configured to allow the one-click payments.
+    attr_accessor :enabled_for_one_click_payment
 
     # 
-    attr_accessor :icon
+    attr_accessor :language
+
+    # The time zone defines in which time zone the customer is located in. The time zone may affects how dates are formatted when interacting with the customer.
+    attr_accessor :time_zone
+
+    # Use something that it is easy to identify and may help you find the token (e.g. customer id, email address).
+    attr_accessor :token_reference
 
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
 
-    # 
-    attr_accessor :name
-
-    # 
-    attr_accessor :parent
-
-    # 
-    attr_accessor :sort_order
+    # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
+    attr_accessor :version
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'description' => :'description',
-        :'icon' => :'icon',
+        :'customer_email_address' => :'customerEmailAddress',
+        :'customer_id' => :'customerId',
+        :'enabled_for_one_click_payment' => :'enabledForOneClickPayment',
+        :'language' => :'language',
+        :'time_zone' => :'timeZone',
+        :'token_reference' => :'tokenReference',
         :'id' => :'id',
-        :'name' => :'name',
-        :'parent' => :'parent',
-        :'sort_order' => :'sortOrder'
+        :'version' => :'version'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'description' => :'Hash<String, String>',
-        :'icon' => :'String',
+        :'customer_email_address' => :'String',
+        :'customer_id' => :'String',
+        :'enabled_for_one_click_payment' => :'BOOLEAN',
+        :'language' => :'String',
+        :'time_zone' => :'String',
+        :'token_reference' => :'String',
         :'id' => :'Integer',
-        :'name' => :'Hash<String, String>',
-        :'parent' => :'SalesChannel',
-        :'sort_order' => :'Integer'
+        :'version' => :'Integer'
       }
     end
 
@@ -70,32 +80,36 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'description')
-        if (value = attributes[:'description']).is_a?(Hash)
-          self.description = value
-        end
+      if attributes.has_key?(:'customerEmailAddress')
+        self.customer_email_address = attributes[:'customerEmailAddress']
       end
 
-      if attributes.has_key?(:'icon')
-        self.icon = attributes[:'icon']
+      if attributes.has_key?(:'customerId')
+        self.customer_id = attributes[:'customerId']
+      end
+
+      if attributes.has_key?(:'enabledForOneClickPayment')
+        self.enabled_for_one_click_payment = attributes[:'enabledForOneClickPayment']
+      end
+
+      if attributes.has_key?(:'language')
+        self.language = attributes[:'language']
+      end
+
+      if attributes.has_key?(:'timeZone')
+        self.time_zone = attributes[:'timeZone']
+      end
+
+      if attributes.has_key?(:'tokenReference')
+        self.token_reference = attributes[:'tokenReference']
       end
 
       if attributes.has_key?(:'id')
         self.id = attributes[:'id']
       end
 
-      if attributes.has_key?(:'name')
-        if (value = attributes[:'name']).is_a?(Hash)
-          self.name = value
-        end
-      end
-
-      if attributes.has_key?(:'parent')
-        self.parent = attributes[:'parent']
-      end
-
-      if attributes.has_key?(:'sortOrder')
-        self.sort_order = attributes[:'sortOrder']
+      if attributes.has_key?(:'version')
+        self.version = attributes[:'version']
       end
     end
 
@@ -103,13 +117,53 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if !@customer_email_address.nil? && @customer_email_address.to_s.length > 150
+        invalid_properties.push('invalid value for "customer_email_address", the character length must be smaller than or equal to 150.')
+      end
+
+      if !@token_reference.nil? && @token_reference.to_s.length > 100
+        invalid_properties.push('invalid value for "token_reference", the character length must be smaller than or equal to 100.')
+      end
+
+      if @id.nil?
+        invalid_properties.push('invalid value for "id", id cannot be nil.')
+      end
+
+      if @version.nil?
+        invalid_properties.push('invalid value for "version", version cannot be nil.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if !@customer_email_address.nil? && @customer_email_address.to_s.length > 150
+      return false if !@token_reference.nil? && @token_reference.to_s.length > 100
+      return false if @id.nil?
+      return false if @version.nil?
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] customer_email_address Value to be assigned
+    def customer_email_address=(customer_email_address)
+      if !customer_email_address.nil? && customer_email_address.to_s.length > 150
+        fail ArgumentError, 'invalid value for "customer_email_address", the character length must be smaller than or equal to 150.'
+      end
+
+      @customer_email_address = customer_email_address
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] token_reference Value to be assigned
+    def token_reference=(token_reference)
+      if !token_reference.nil? && token_reference.to_s.length > 100
+        fail ArgumentError, 'invalid value for "token_reference", the character length must be smaller than or equal to 100.'
+      end
+
+      @token_reference = token_reference
     end
 
     # Checks equality by comparing each attribute.
@@ -117,12 +171,14 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          description == o.description &&
-          icon == o.icon &&
+          customer_email_address == o.customer_email_address &&
+          customer_id == o.customer_id &&
+          enabled_for_one_click_payment == o.enabled_for_one_click_payment &&
+          language == o.language &&
+          time_zone == o.time_zone &&
+          token_reference == o.token_reference &&
           id == o.id &&
-          name == o.name &&
-          parent == o.parent &&
-          sort_order == o.sort_order
+          version == o.version
     end
 
     # @see the `==` method
@@ -134,7 +190,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [description, icon, id, name, parent, sort_order].hash
+      [customer_email_address, customer_id, enabled_for_one_click_payment, language, time_zone, token_reference, id, version].hash
     end
 
     # Builds the object from hash
