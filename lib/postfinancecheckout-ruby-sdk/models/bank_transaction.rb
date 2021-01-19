@@ -19,12 +19,24 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class PaymentTerminalLocation
-    # 
-    attr_accessor :contact_address
+  class BankTransaction
+    # The adjustments applied on this bank transaction.
+    attr_accessor :adjustments
+
+    # The created by indicates the user which has created the bank transaction.
+    attr_accessor :created_by
+
+    # The created on date indicates the date on which the entity was stored into the database.
+    attr_accessor :created_on
+
+    # The currency bank account which is used to handle money flow.
+    attr_accessor :currency_bank_account
 
     # 
-    attr_accessor :default_configuration
+    attr_accessor :external_id
+
+    # 
+    attr_accessor :flow_direction
 
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
@@ -32,14 +44,32 @@ module PostFinanceCheckout
     # The linked space id holds the ID of the space to which the entity belongs to.
     attr_accessor :linked_space_id
 
-    # The terminal location name is used internally to identify the terminal in administrative interfaces. For example it is used within search fields and hence it should be distinct and descriptive.
-    attr_accessor :name
-
     # The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
     attr_accessor :planned_purge_date
 
+    # The posting amount indicates the amount including adjustments.
+    attr_accessor :posting_amount
+
+    # 
+    attr_accessor :reference
+
+    # 
+    attr_accessor :source
+
     # 
     attr_accessor :state
+
+    # 
+    attr_accessor :total_adjustment_amount_including_tax
+
+    # 
+    attr_accessor :type
+
+    # 
+    attr_accessor :value_amount
+
+    # The value date describes the date the amount is effective on the account.
+    attr_accessor :value_date
 
     # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
     attr_accessor :version
@@ -47,13 +77,23 @@ module PostFinanceCheckout
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'contact_address' => :'contactAddress',
-        :'default_configuration' => :'defaultConfiguration',
+        :'adjustments' => :'adjustments',
+        :'created_by' => :'createdBy',
+        :'created_on' => :'createdOn',
+        :'currency_bank_account' => :'currencyBankAccount',
+        :'external_id' => :'externalId',
+        :'flow_direction' => :'flowDirection',
         :'id' => :'id',
         :'linked_space_id' => :'linkedSpaceId',
-        :'name' => :'name',
         :'planned_purge_date' => :'plannedPurgeDate',
+        :'posting_amount' => :'postingAmount',
+        :'reference' => :'reference',
+        :'source' => :'source',
         :'state' => :'state',
+        :'total_adjustment_amount_including_tax' => :'totalAdjustmentAmountIncludingTax',
+        :'type' => :'type',
+        :'value_amount' => :'valueAmount',
+        :'value_date' => :'valueDate',
         :'version' => :'version'
       }
     end
@@ -61,13 +101,23 @@ module PostFinanceCheckout
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'contact_address' => :'PaymentTerminalAddress',
-        :'default_configuration' => :'PaymentTerminalConfiguration',
+        :'adjustments' => :'Array<PaymentAdjustment>',
+        :'created_by' => :'Integer',
+        :'created_on' => :'DateTime',
+        :'currency_bank_account' => :'CurrencyBankAccount',
+        :'external_id' => :'String',
+        :'flow_direction' => :'BankTransactionFlowDirection',
         :'id' => :'Integer',
         :'linked_space_id' => :'Integer',
-        :'name' => :'String',
         :'planned_purge_date' => :'DateTime',
-        :'state' => :'PaymentTerminalLocationState',
+        :'posting_amount' => :'Float',
+        :'reference' => :'String',
+        :'source' => :'Integer',
+        :'state' => :'BankTransactionState',
+        :'total_adjustment_amount_including_tax' => :'Float',
+        :'type' => :'Integer',
+        :'value_amount' => :'Float',
+        :'value_date' => :'DateTime',
         :'version' => :'Integer'
       }
     end
@@ -80,12 +130,30 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'contactAddress')
-        self.contact_address = attributes[:'contactAddress']
+      if attributes.has_key?(:'adjustments')
+        if (value = attributes[:'adjustments']).is_a?(Array)
+          self.adjustments = value
+        end
       end
 
-      if attributes.has_key?(:'defaultConfiguration')
-        self.default_configuration = attributes[:'defaultConfiguration']
+      if attributes.has_key?(:'createdBy')
+        self.created_by = attributes[:'createdBy']
+      end
+
+      if attributes.has_key?(:'createdOn')
+        self.created_on = attributes[:'createdOn']
+      end
+
+      if attributes.has_key?(:'currencyBankAccount')
+        self.currency_bank_account = attributes[:'currencyBankAccount']
+      end
+
+      if attributes.has_key?(:'externalId')
+        self.external_id = attributes[:'externalId']
+      end
+
+      if attributes.has_key?(:'flowDirection')
+        self.flow_direction = attributes[:'flowDirection']
       end
 
       if attributes.has_key?(:'id')
@@ -96,16 +164,40 @@ module PostFinanceCheckout
         self.linked_space_id = attributes[:'linkedSpaceId']
       end
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
-      end
-
       if attributes.has_key?(:'plannedPurgeDate')
         self.planned_purge_date = attributes[:'plannedPurgeDate']
       end
 
+      if attributes.has_key?(:'postingAmount')
+        self.posting_amount = attributes[:'postingAmount']
+      end
+
+      if attributes.has_key?(:'reference')
+        self.reference = attributes[:'reference']
+      end
+
+      if attributes.has_key?(:'source')
+        self.source = attributes[:'source']
+      end
+
       if attributes.has_key?(:'state')
         self.state = attributes[:'state']
+      end
+
+      if attributes.has_key?(:'totalAdjustmentAmountIncludingTax')
+        self.total_adjustment_amount_including_tax = attributes[:'totalAdjustmentAmountIncludingTax']
+      end
+
+      if attributes.has_key?(:'type')
+        self.type = attributes[:'type']
+      end
+
+      if attributes.has_key?(:'valueAmount')
+        self.value_amount = attributes[:'valueAmount']
+      end
+
+      if attributes.has_key?(:'valueDate')
+        self.value_date = attributes[:'valueDate']
       end
 
       if attributes.has_key?(:'version')
@@ -117,8 +209,12 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@name.nil? && @name.to_s.length > 100
-        invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 100.')
+      if !@external_id.nil? && @external_id.to_s.length > 100
+        invalid_properties.push('invalid value for "external_id", the character length must be smaller than or equal to 100.')
+      end
+
+      if !@external_id.nil? && @external_id.to_s.length < 1
+        invalid_properties.push('invalid value for "external_id", the character length must be great than or equal to 1.')
       end
 
       invalid_properties
@@ -127,18 +223,23 @@ module PostFinanceCheckout
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@name.nil? && @name.to_s.length > 100
+      return false if !@external_id.nil? && @external_id.to_s.length > 100
+      return false if !@external_id.nil? && @external_id.to_s.length < 1
       true
     end
 
     # Custom attribute writer method with validation
-    # @param [Object] name Value to be assigned
-    def name=(name)
-      if !name.nil? && name.to_s.length > 100
-        fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 100.'
+    # @param [Object] external_id Value to be assigned
+    def external_id=(external_id)
+      if !external_id.nil? && external_id.to_s.length > 100
+        fail ArgumentError, 'invalid value for "external_id", the character length must be smaller than or equal to 100.'
       end
 
-      @name = name
+      if !external_id.nil? && external_id.to_s.length < 1
+        fail ArgumentError, 'invalid value for "external_id", the character length must be great than or equal to 1.'
+      end
+
+      @external_id = external_id
     end
 
     # Checks equality by comparing each attribute.
@@ -146,13 +247,23 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          contact_address == o.contact_address &&
-          default_configuration == o.default_configuration &&
+          adjustments == o.adjustments &&
+          created_by == o.created_by &&
+          created_on == o.created_on &&
+          currency_bank_account == o.currency_bank_account &&
+          external_id == o.external_id &&
+          flow_direction == o.flow_direction &&
           id == o.id &&
           linked_space_id == o.linked_space_id &&
-          name == o.name &&
           planned_purge_date == o.planned_purge_date &&
+          posting_amount == o.posting_amount &&
+          reference == o.reference &&
+          source == o.source &&
           state == o.state &&
+          total_adjustment_amount_including_tax == o.total_adjustment_amount_including_tax &&
+          type == o.type &&
+          value_amount == o.value_amount &&
+          value_date == o.value_date &&
           version == o.version
     end
 
@@ -165,7 +276,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [contact_address, default_configuration, id, linked_space_id, name, planned_purge_date, state, version].hash
+      [adjustments, created_by, created_on, currency_bank_account, external_id, flow_direction, id, linked_space_id, planned_purge_date, posting_amount, reference, source, state, total_adjustment_amount_including_tax, type, value_amount, value_date, version].hash
     end
 
     # Builds the object from hash

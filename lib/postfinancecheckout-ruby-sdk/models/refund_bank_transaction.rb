@@ -19,27 +19,33 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class PaymentTerminalLocation
-    # 
-    attr_accessor :contact_address
-
-    # 
-    attr_accessor :default_configuration
-
+  class RefundBankTransaction
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
 
     # The linked space id holds the ID of the space to which the entity belongs to.
     attr_accessor :linked_space_id
 
-    # The terminal location name is used internally to identify the terminal in administrative interfaces. For example it is used within search fields and hence it should be distinct and descriptive.
-    attr_accessor :name
-
-    # The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
-    attr_accessor :planned_purge_date
+    # 
+    attr_accessor :linked_transaction
 
     # 
-    attr_accessor :state
+    attr_accessor :bank_transaction
+
+    # 
+    attr_accessor :language
+
+    # 
+    attr_accessor :refund
+
+    # Specify the posting amount in the refund's currency.
+    attr_accessor :refund_currency_amount
+
+    # 
+    attr_accessor :refund_currency_value_amount
+
+    # 
+    attr_accessor :space_view_id
 
     # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
     attr_accessor :version
@@ -47,13 +53,15 @@ module PostFinanceCheckout
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'contact_address' => :'contactAddress',
-        :'default_configuration' => :'defaultConfiguration',
         :'id' => :'id',
         :'linked_space_id' => :'linkedSpaceId',
-        :'name' => :'name',
-        :'planned_purge_date' => :'plannedPurgeDate',
-        :'state' => :'state',
+        :'linked_transaction' => :'linkedTransaction',
+        :'bank_transaction' => :'bankTransaction',
+        :'language' => :'language',
+        :'refund' => :'refund',
+        :'refund_currency_amount' => :'refundCurrencyAmount',
+        :'refund_currency_value_amount' => :'refundCurrencyValueAmount',
+        :'space_view_id' => :'spaceViewId',
         :'version' => :'version'
       }
     end
@@ -61,13 +69,15 @@ module PostFinanceCheckout
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'contact_address' => :'PaymentTerminalAddress',
-        :'default_configuration' => :'PaymentTerminalConfiguration',
         :'id' => :'Integer',
         :'linked_space_id' => :'Integer',
-        :'name' => :'String',
-        :'planned_purge_date' => :'DateTime',
-        :'state' => :'PaymentTerminalLocationState',
+        :'linked_transaction' => :'Integer',
+        :'bank_transaction' => :'BankTransaction',
+        :'language' => :'String',
+        :'refund' => :'Integer',
+        :'refund_currency_amount' => :'Float',
+        :'refund_currency_value_amount' => :'Float',
+        :'space_view_id' => :'Integer',
         :'version' => :'Integer'
       }
     end
@@ -80,14 +90,6 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'contactAddress')
-        self.contact_address = attributes[:'contactAddress']
-      end
-
-      if attributes.has_key?(:'defaultConfiguration')
-        self.default_configuration = attributes[:'defaultConfiguration']
-      end
-
       if attributes.has_key?(:'id')
         self.id = attributes[:'id']
       end
@@ -96,16 +98,32 @@ module PostFinanceCheckout
         self.linked_space_id = attributes[:'linkedSpaceId']
       end
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.has_key?(:'linkedTransaction')
+        self.linked_transaction = attributes[:'linkedTransaction']
       end
 
-      if attributes.has_key?(:'plannedPurgeDate')
-        self.planned_purge_date = attributes[:'plannedPurgeDate']
+      if attributes.has_key?(:'bankTransaction')
+        self.bank_transaction = attributes[:'bankTransaction']
       end
 
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
+      if attributes.has_key?(:'language')
+        self.language = attributes[:'language']
+      end
+
+      if attributes.has_key?(:'refund')
+        self.refund = attributes[:'refund']
+      end
+
+      if attributes.has_key?(:'refundCurrencyAmount')
+        self.refund_currency_amount = attributes[:'refundCurrencyAmount']
+      end
+
+      if attributes.has_key?(:'refundCurrencyValueAmount')
+        self.refund_currency_value_amount = attributes[:'refundCurrencyValueAmount']
+      end
+
+      if attributes.has_key?(:'spaceViewId')
+        self.space_view_id = attributes[:'spaceViewId']
       end
 
       if attributes.has_key?(:'version')
@@ -117,28 +135,13 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@name.nil? && @name.to_s.length > 100
-        invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 100.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@name.nil? && @name.to_s.length > 100
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] name Value to be assigned
-    def name=(name)
-      if !name.nil? && name.to_s.length > 100
-        fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 100.'
-      end
-
-      @name = name
     end
 
     # Checks equality by comparing each attribute.
@@ -146,13 +149,15 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          contact_address == o.contact_address &&
-          default_configuration == o.default_configuration &&
           id == o.id &&
           linked_space_id == o.linked_space_id &&
-          name == o.name &&
-          planned_purge_date == o.planned_purge_date &&
-          state == o.state &&
+          linked_transaction == o.linked_transaction &&
+          bank_transaction == o.bank_transaction &&
+          language == o.language &&
+          refund == o.refund &&
+          refund_currency_amount == o.refund_currency_amount &&
+          refund_currency_value_amount == o.refund_currency_value_amount &&
+          space_view_id == o.space_view_id &&
           version == o.version
     end
 
@@ -165,7 +170,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [contact_address, default_configuration, id, linked_space_id, name, planned_purge_date, state, version].hash
+      [id, linked_space_id, linked_transaction, bank_transaction, language, refund, refund_currency_amount, refund_currency_value_amount, space_view_id, version].hash
     end
 
     # Builds the object from hash
