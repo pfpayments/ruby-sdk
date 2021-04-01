@@ -50,6 +50,9 @@ module PostFinanceCheckout
     # 
     attr_accessor :two_factor_required
 
+    # 
+    attr_accessor :web_app_enabled
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -62,7 +65,8 @@ module PostFinanceCheckout
         :'parent' => :'parent',
         :'path_to_root' => :'pathToRoot',
         :'title' => :'title',
-        :'two_factor_required' => :'twoFactorRequired'
+        :'two_factor_required' => :'twoFactorRequired',
+        :'web_app_enabled' => :'webAppEnabled'
       }
     end
 
@@ -78,7 +82,8 @@ module PostFinanceCheckout
         :'parent' => :'Integer',
         :'path_to_root' => :'Array<Integer>',
         :'title' => :'Hash<String, String>',
-        :'two_factor_required' => :'BOOLEAN'
+        :'two_factor_required' => :'BOOLEAN',
+        :'web_app_enabled' => :'BOOLEAN'
       }
     end
 
@@ -137,6 +142,10 @@ module PostFinanceCheckout
       if attributes.has_key?(:'twoFactorRequired')
         self.two_factor_required = attributes[:'twoFactorRequired']
       end
+
+      if attributes.has_key?(:'webAppEnabled')
+        self.web_app_enabled = attributes[:'webAppEnabled']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -166,7 +175,8 @@ module PostFinanceCheckout
           parent == o.parent &&
           path_to_root == o.path_to_root &&
           title == o.title &&
-          two_factor_required == o.two_factor_required
+          two_factor_required == o.two_factor_required &&
+          web_app_enabled == o.web_app_enabled
     end
 
     # @see the `==` method
@@ -178,7 +188,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [description, feature, group, id, leaf, name, parent, path_to_root, title, two_factor_required].hash
+      [description, feature, group, id, leaf, name, parent, path_to_root, title, two_factor_required, web_app_enabled].hash
     end
 
     # Builds the object from hash
