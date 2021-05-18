@@ -19,42 +19,45 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class PaymentContract
-    # 
-    attr_accessor :account
-
-    # 
-    attr_accessor :activated_on
-
-    # 
-    attr_accessor :contract_identifier
-
-    # 
-    attr_accessor :contract_type
-
+  class ShopifySubscription
     # 
     attr_accessor :created_by
 
-    # The created on date indicates the date on which the entity was stored into the database.
+    # 
     attr_accessor :created_on
 
-    # A client generated nonce which identifies the entity to be created. Subsequent creation requests with the same external ID will not create new entities but return the initially created entity instead.
+    # The external id helps to identify the entity and a subsequent creation of an entity with the same ID will not create a new entity.
     attr_accessor :external_id
 
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
 
     # 
-    attr_accessor :rejected_on
+    attr_accessor :initial_execution_date
 
     # 
-    attr_accessor :rejection_reason
+    attr_accessor :initial_payment_transaction
 
     # 
-    attr_accessor :start_terminating_on
+    attr_accessor :initial_shopify_transaction
+
+    # 
+    attr_accessor :language
+
+    # The linked space id holds the ID of the space to which the entity belongs to.
+    attr_accessor :linked_space_id
+
+    # 
+    attr_accessor :order_recurrence_number
+
+    # 
+    attr_accessor :shop
 
     # 
     attr_accessor :state
+
+    # 
+    attr_accessor :subscriber
 
     # 
     attr_accessor :terminated_by
@@ -62,26 +65,31 @@ module PostFinanceCheckout
     # 
     attr_accessor :terminated_on
 
+    # 
+    attr_accessor :termination_request_date
+
     # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
     attr_accessor :version
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'account' => :'account',
-        :'activated_on' => :'activatedOn',
-        :'contract_identifier' => :'contractIdentifier',
-        :'contract_type' => :'contractType',
         :'created_by' => :'createdBy',
         :'created_on' => :'createdOn',
         :'external_id' => :'externalId',
         :'id' => :'id',
-        :'rejected_on' => :'rejectedOn',
-        :'rejection_reason' => :'rejectionReason',
-        :'start_terminating_on' => :'startTerminatingOn',
+        :'initial_execution_date' => :'initialExecutionDate',
+        :'initial_payment_transaction' => :'initialPaymentTransaction',
+        :'initial_shopify_transaction' => :'initialShopifyTransaction',
+        :'language' => :'language',
+        :'linked_space_id' => :'linkedSpaceId',
+        :'order_recurrence_number' => :'orderRecurrenceNumber',
+        :'shop' => :'shop',
         :'state' => :'state',
+        :'subscriber' => :'subscriber',
         :'terminated_by' => :'terminatedBy',
         :'terminated_on' => :'terminatedOn',
+        :'termination_request_date' => :'terminationRequestDate',
         :'version' => :'version'
       }
     end
@@ -89,20 +97,22 @@ module PostFinanceCheckout
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'account' => :'Account',
-        :'activated_on' => :'DateTime',
-        :'contract_identifier' => :'String',
-        :'contract_type' => :'PaymentContractType',
-        :'created_by' => :'User',
+        :'created_by' => :'Integer',
         :'created_on' => :'DateTime',
         :'external_id' => :'String',
         :'id' => :'Integer',
-        :'rejected_on' => :'DateTime',
-        :'rejection_reason' => :'FailureReason',
-        :'start_terminating_on' => :'DateTime',
-        :'state' => :'PaymentContractState',
-        :'terminated_by' => :'User',
+        :'initial_execution_date' => :'DateTime',
+        :'initial_payment_transaction' => :'Integer',
+        :'initial_shopify_transaction' => :'Integer',
+        :'language' => :'String',
+        :'linked_space_id' => :'Integer',
+        :'order_recurrence_number' => :'Integer',
+        :'shop' => :'Integer',
+        :'state' => :'ShopifySubscriptionState',
+        :'subscriber' => :'ShopifySubscriber',
+        :'terminated_by' => :'Integer',
         :'terminated_on' => :'DateTime',
+        :'termination_request_date' => :'DateTime',
         :'version' => :'Integer'
       }
     end
@@ -114,22 +124,6 @@ module PostFinanceCheckout
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
-
-      if attributes.has_key?(:'account')
-        self.account = attributes[:'account']
-      end
-
-      if attributes.has_key?(:'activatedOn')
-        self.activated_on = attributes[:'activatedOn']
-      end
-
-      if attributes.has_key?(:'contractIdentifier')
-        self.contract_identifier = attributes[:'contractIdentifier']
-      end
-
-      if attributes.has_key?(:'contractType')
-        self.contract_type = attributes[:'contractType']
-      end
 
       if attributes.has_key?(:'createdBy')
         self.created_by = attributes[:'createdBy']
@@ -147,20 +141,40 @@ module PostFinanceCheckout
         self.id = attributes[:'id']
       end
 
-      if attributes.has_key?(:'rejectedOn')
-        self.rejected_on = attributes[:'rejectedOn']
+      if attributes.has_key?(:'initialExecutionDate')
+        self.initial_execution_date = attributes[:'initialExecutionDate']
       end
 
-      if attributes.has_key?(:'rejectionReason')
-        self.rejection_reason = attributes[:'rejectionReason']
+      if attributes.has_key?(:'initialPaymentTransaction')
+        self.initial_payment_transaction = attributes[:'initialPaymentTransaction']
       end
 
-      if attributes.has_key?(:'startTerminatingOn')
-        self.start_terminating_on = attributes[:'startTerminatingOn']
+      if attributes.has_key?(:'initialShopifyTransaction')
+        self.initial_shopify_transaction = attributes[:'initialShopifyTransaction']
+      end
+
+      if attributes.has_key?(:'language')
+        self.language = attributes[:'language']
+      end
+
+      if attributes.has_key?(:'linkedSpaceId')
+        self.linked_space_id = attributes[:'linkedSpaceId']
+      end
+
+      if attributes.has_key?(:'orderRecurrenceNumber')
+        self.order_recurrence_number = attributes[:'orderRecurrenceNumber']
+      end
+
+      if attributes.has_key?(:'shop')
+        self.shop = attributes[:'shop']
       end
 
       if attributes.has_key?(:'state')
         self.state = attributes[:'state']
+      end
+
+      if attributes.has_key?(:'subscriber')
+        self.subscriber = attributes[:'subscriber']
       end
 
       if attributes.has_key?(:'terminatedBy')
@@ -169,6 +183,10 @@ module PostFinanceCheckout
 
       if attributes.has_key?(:'terminatedOn')
         self.terminated_on = attributes[:'terminatedOn']
+      end
+
+      if attributes.has_key?(:'terminationRequestDate')
+        self.termination_request_date = attributes[:'terminationRequestDate']
       end
 
       if attributes.has_key?(:'version')
@@ -180,13 +198,37 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if !@external_id.nil? && @external_id.to_s.length > 100
+        invalid_properties.push('invalid value for "external_id", the character length must be smaller than or equal to 100.')
+      end
+
+      if !@external_id.nil? && @external_id.to_s.length < 1
+        invalid_properties.push('invalid value for "external_id", the character length must be great than or equal to 1.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if !@external_id.nil? && @external_id.to_s.length > 100
+      return false if !@external_id.nil? && @external_id.to_s.length < 1
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] external_id Value to be assigned
+    def external_id=(external_id)
+      if !external_id.nil? && external_id.to_s.length > 100
+        fail ArgumentError, 'invalid value for "external_id", the character length must be smaller than or equal to 100.'
+      end
+
+      if !external_id.nil? && external_id.to_s.length < 1
+        fail ArgumentError, 'invalid value for "external_id", the character length must be great than or equal to 1.'
+      end
+
+      @external_id = external_id
     end
 
     # Checks equality by comparing each attribute.
@@ -194,20 +236,22 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          account == o.account &&
-          activated_on == o.activated_on &&
-          contract_identifier == o.contract_identifier &&
-          contract_type == o.contract_type &&
           created_by == o.created_by &&
           created_on == o.created_on &&
           external_id == o.external_id &&
           id == o.id &&
-          rejected_on == o.rejected_on &&
-          rejection_reason == o.rejection_reason &&
-          start_terminating_on == o.start_terminating_on &&
+          initial_execution_date == o.initial_execution_date &&
+          initial_payment_transaction == o.initial_payment_transaction &&
+          initial_shopify_transaction == o.initial_shopify_transaction &&
+          language == o.language &&
+          linked_space_id == o.linked_space_id &&
+          order_recurrence_number == o.order_recurrence_number &&
+          shop == o.shop &&
           state == o.state &&
+          subscriber == o.subscriber &&
           terminated_by == o.terminated_by &&
           terminated_on == o.terminated_on &&
+          termination_request_date == o.termination_request_date &&
           version == o.version
     end
 
@@ -220,7 +264,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [account, activated_on, contract_identifier, contract_type, created_by, created_on, external_id, id, rejected_on, rejection_reason, start_terminating_on, state, terminated_by, terminated_on, version].hash
+      [created_by, created_on, external_id, id, initial_execution_date, initial_payment_transaction, initial_shopify_transaction, language, linked_space_id, order_recurrence_number, shop, state, subscriber, terminated_by, terminated_on, termination_request_date, version].hash
     end
 
     # Builds the object from hash

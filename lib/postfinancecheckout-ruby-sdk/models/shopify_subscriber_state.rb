@@ -15,6 +15,22 @@ limitations under the License.
 
 =end
 
+require 'date'
+
 module PostFinanceCheckout
-  VERSION = '3.0.1'
+  class ShopifySubscriberState
+    
+    ACTIVE = 'ACTIVE'.freeze
+    DELETING = 'DELETING'.freeze
+    DELETED = 'DELETED'.freeze
+
+    # Builds the enum from string
+    # @param [String] The enum value in the form of the string
+    # @return [String] The enum value
+    def build_from_hash(value)
+      constantValues = ShopifySubscriberState.constants.select { |c| ShopifySubscriberState::const_get(c) == value }
+      raise "Invalid ENUM value #{value} for class #ShopifySubscriberState" if constantValues.empty?
+      value
+    end
+  end
 end

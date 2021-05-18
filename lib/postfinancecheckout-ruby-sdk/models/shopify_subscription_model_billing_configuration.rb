@@ -19,56 +19,61 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class TokenCreate
-    # The customer email address is the email address of the customer.
-    attr_accessor :customer_email_address
-
-    # The customer ID identifies the customer in the merchant system. In case the customer ID has been provided it has to correspond with the customer ID provided on the transaction. The customer ID will not be changed automatically. The merchant system has to provide it.
-    attr_accessor :customer_id
-
-    # When a token is enabled for one-click payments the buyer will be able to select the token within the iFrame or on the payment page to pay with the token. The usage of the token will reduce the number of steps the buyer has to go through. The buyer is linked via the customer ID on the transaction with the token. Means the token will be visible for buyers with the same customer ID. Additionally the payment method has to be configured to allow the one-click payments.
-    attr_accessor :enabled_for_one_click_payment
+  class ShopifySubscriptionModelBillingConfiguration
+    # Define the day of the month on which the recurring orders should be created.
+    attr_accessor :billing_day_of_month
 
     # 
-    attr_accessor :language
+    attr_accessor :billing_interval_amount
 
-    # The time zone defines in which time zone the customer is located in. The time zone may affects how dates are formatted when interacting with the customer.
-    attr_accessor :time_zone
+    # Define how frequently recurring orders should be created.
+    attr_accessor :billing_interval_unit
 
-    # Use something that it is easy to identify and may help you find the token (e.g. customer id, email address).
-    attr_accessor :token_reference
+    # This date will be used as basis to calculate the dates of recurring orders.
+    attr_accessor :billing_reference_date
 
-    # A client generated nonce which identifies the entity to be created. Subsequent creation requests with the same external ID will not create new entities but return the initially created entity instead.
-    attr_accessor :external_id
+    # Define the weekday on which the recurring orders should be created.
+    attr_accessor :billing_weekday
 
-    # 
-    attr_accessor :state
+    # Define the maximum number of orders the subscription will run for.
+    attr_accessor :maximal_billing_cycles
+
+    # Define the maximum number of orders the subscription can be suspended for at a time.
+    attr_accessor :maximal_suspendable_cycles
+
+    # Define the minimal number of orders the subscription will run for.
+    attr_accessor :minimal_billing_cycles
+
+    # Define the number of orders the subscription will keep running for after its termination has been requested.
+    attr_accessor :termination_billing_cycles
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'customer_email_address' => :'customerEmailAddress',
-        :'customer_id' => :'customerId',
-        :'enabled_for_one_click_payment' => :'enabledForOneClickPayment',
-        :'language' => :'language',
-        :'time_zone' => :'timeZone',
-        :'token_reference' => :'tokenReference',
-        :'external_id' => :'externalId',
-        :'state' => :'state'
+        :'billing_day_of_month' => :'billingDayOfMonth',
+        :'billing_interval_amount' => :'billingIntervalAmount',
+        :'billing_interval_unit' => :'billingIntervalUnit',
+        :'billing_reference_date' => :'billingReferenceDate',
+        :'billing_weekday' => :'billingWeekday',
+        :'maximal_billing_cycles' => :'maximalBillingCycles',
+        :'maximal_suspendable_cycles' => :'maximalSuspendableCycles',
+        :'minimal_billing_cycles' => :'minimalBillingCycles',
+        :'termination_billing_cycles' => :'terminationBillingCycles'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'customer_email_address' => :'String',
-        :'customer_id' => :'String',
-        :'enabled_for_one_click_payment' => :'BOOLEAN',
-        :'language' => :'String',
-        :'time_zone' => :'String',
-        :'token_reference' => :'String',
-        :'external_id' => :'String',
-        :'state' => :'CreationEntityState'
+        :'billing_day_of_month' => :'Integer',
+        :'billing_interval_amount' => :'Integer',
+        :'billing_interval_unit' => :'ShopifySubscriptionBillingIntervalUnit',
+        :'billing_reference_date' => :'DateTime',
+        :'billing_weekday' => :'ShopifySubscriptionWeekday',
+        :'maximal_billing_cycles' => :'Integer',
+        :'maximal_suspendable_cycles' => :'Integer',
+        :'minimal_billing_cycles' => :'Integer',
+        :'termination_billing_cycles' => :'Integer'
       }
     end
 
@@ -80,36 +85,40 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'customerEmailAddress')
-        self.customer_email_address = attributes[:'customerEmailAddress']
+      if attributes.has_key?(:'billingDayOfMonth')
+        self.billing_day_of_month = attributes[:'billingDayOfMonth']
       end
 
-      if attributes.has_key?(:'customerId')
-        self.customer_id = attributes[:'customerId']
+      if attributes.has_key?(:'billingIntervalAmount')
+        self.billing_interval_amount = attributes[:'billingIntervalAmount']
       end
 
-      if attributes.has_key?(:'enabledForOneClickPayment')
-        self.enabled_for_one_click_payment = attributes[:'enabledForOneClickPayment']
+      if attributes.has_key?(:'billingIntervalUnit')
+        self.billing_interval_unit = attributes[:'billingIntervalUnit']
       end
 
-      if attributes.has_key?(:'language')
-        self.language = attributes[:'language']
+      if attributes.has_key?(:'billingReferenceDate')
+        self.billing_reference_date = attributes[:'billingReferenceDate']
       end
 
-      if attributes.has_key?(:'timeZone')
-        self.time_zone = attributes[:'timeZone']
+      if attributes.has_key?(:'billingWeekday')
+        self.billing_weekday = attributes[:'billingWeekday']
       end
 
-      if attributes.has_key?(:'tokenReference')
-        self.token_reference = attributes[:'tokenReference']
+      if attributes.has_key?(:'maximalBillingCycles')
+        self.maximal_billing_cycles = attributes[:'maximalBillingCycles']
       end
 
-      if attributes.has_key?(:'externalId')
-        self.external_id = attributes[:'externalId']
+      if attributes.has_key?(:'maximalSuspendableCycles')
+        self.maximal_suspendable_cycles = attributes[:'maximalSuspendableCycles']
       end
 
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
+      if attributes.has_key?(:'minimalBillingCycles')
+        self.minimal_billing_cycles = attributes[:'minimalBillingCycles']
+      end
+
+      if attributes.has_key?(:'terminationBillingCycles')
+        self.termination_billing_cycles = attributes[:'terminationBillingCycles']
       end
     end
 
@@ -117,48 +126,13 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@customer_email_address.nil? && @customer_email_address.to_s.length > 150
-        invalid_properties.push('invalid value for "customer_email_address", the character length must be smaller than or equal to 150.')
-      end
-
-      if !@token_reference.nil? && @token_reference.to_s.length > 100
-        invalid_properties.push('invalid value for "token_reference", the character length must be smaller than or equal to 100.')
-      end
-
-      if @external_id.nil?
-        invalid_properties.push('invalid value for "external_id", external_id cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@customer_email_address.nil? && @customer_email_address.to_s.length > 150
-      return false if !@token_reference.nil? && @token_reference.to_s.length > 100
-      return false if @external_id.nil?
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] customer_email_address Value to be assigned
-    def customer_email_address=(customer_email_address)
-      if !customer_email_address.nil? && customer_email_address.to_s.length > 150
-        fail ArgumentError, 'invalid value for "customer_email_address", the character length must be smaller than or equal to 150.'
-      end
-
-      @customer_email_address = customer_email_address
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] token_reference Value to be assigned
-    def token_reference=(token_reference)
-      if !token_reference.nil? && token_reference.to_s.length > 100
-        fail ArgumentError, 'invalid value for "token_reference", the character length must be smaller than or equal to 100.'
-      end
-
-      @token_reference = token_reference
     end
 
     # Checks equality by comparing each attribute.
@@ -166,14 +140,15 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          customer_email_address == o.customer_email_address &&
-          customer_id == o.customer_id &&
-          enabled_for_one_click_payment == o.enabled_for_one_click_payment &&
-          language == o.language &&
-          time_zone == o.time_zone &&
-          token_reference == o.token_reference &&
-          external_id == o.external_id &&
-          state == o.state
+          billing_day_of_month == o.billing_day_of_month &&
+          billing_interval_amount == o.billing_interval_amount &&
+          billing_interval_unit == o.billing_interval_unit &&
+          billing_reference_date == o.billing_reference_date &&
+          billing_weekday == o.billing_weekday &&
+          maximal_billing_cycles == o.maximal_billing_cycles &&
+          maximal_suspendable_cycles == o.maximal_suspendable_cycles &&
+          minimal_billing_cycles == o.minimal_billing_cycles &&
+          termination_billing_cycles == o.termination_billing_cycles
     end
 
     # @see the `==` method
@@ -185,7 +160,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [customer_email_address, customer_id, enabled_for_one_click_payment, language, time_zone, token_reference, external_id, state].hash
+      [billing_day_of_month, billing_interval_amount, billing_interval_unit, billing_reference_date, billing_weekday, maximal_billing_cycles, maximal_suspendable_cycles, minimal_billing_cycles, termination_billing_cycles].hash
     end
 
     # Builds the object from hash

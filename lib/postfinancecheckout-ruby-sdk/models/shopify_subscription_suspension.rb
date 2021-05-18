@@ -19,48 +19,42 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class PaymentContract
-    # 
-    attr_accessor :account
-
-    # 
-    attr_accessor :activated_on
-
-    # 
-    attr_accessor :contract_identifier
-
-    # 
-    attr_accessor :contract_type
-
+  class ShopifySubscriptionSuspension
     # 
     attr_accessor :created_by
 
-    # The created on date indicates the date on which the entity was stored into the database.
+    # 
     attr_accessor :created_on
 
-    # A client generated nonce which identifies the entity to be created. Subsequent creation requests with the same external ID will not create new entities but return the initially created entity instead.
-    attr_accessor :external_id
+    # 
+    attr_accessor :ended_by
+
+    # 
+    attr_accessor :ended_on
 
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
 
     # 
-    attr_accessor :rejected_on
+    attr_accessor :initiator
+
+    # The linked space id holds the ID of the space to which the entity belongs to.
+    attr_accessor :linked_space_id
 
     # 
-    attr_accessor :rejection_reason
+    attr_accessor :planned_end_date
 
     # 
-    attr_accessor :start_terminating_on
+    attr_accessor :shop
 
     # 
     attr_accessor :state
 
     # 
-    attr_accessor :terminated_by
+    attr_accessor :subscription
 
     # 
-    attr_accessor :terminated_on
+    attr_accessor :type
 
     # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
     attr_accessor :version
@@ -68,20 +62,18 @@ module PostFinanceCheckout
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'account' => :'account',
-        :'activated_on' => :'activatedOn',
-        :'contract_identifier' => :'contractIdentifier',
-        :'contract_type' => :'contractType',
         :'created_by' => :'createdBy',
         :'created_on' => :'createdOn',
-        :'external_id' => :'externalId',
+        :'ended_by' => :'endedBy',
+        :'ended_on' => :'endedOn',
         :'id' => :'id',
-        :'rejected_on' => :'rejectedOn',
-        :'rejection_reason' => :'rejectionReason',
-        :'start_terminating_on' => :'startTerminatingOn',
+        :'initiator' => :'initiator',
+        :'linked_space_id' => :'linkedSpaceId',
+        :'planned_end_date' => :'plannedEndDate',
+        :'shop' => :'shop',
         :'state' => :'state',
-        :'terminated_by' => :'terminatedBy',
-        :'terminated_on' => :'terminatedOn',
+        :'subscription' => :'subscription',
+        :'type' => :'type',
         :'version' => :'version'
       }
     end
@@ -89,20 +81,18 @@ module PostFinanceCheckout
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'account' => :'Account',
-        :'activated_on' => :'DateTime',
-        :'contract_identifier' => :'String',
-        :'contract_type' => :'PaymentContractType',
-        :'created_by' => :'User',
+        :'created_by' => :'Integer',
         :'created_on' => :'DateTime',
-        :'external_id' => :'String',
+        :'ended_by' => :'Integer',
+        :'ended_on' => :'DateTime',
         :'id' => :'Integer',
-        :'rejected_on' => :'DateTime',
-        :'rejection_reason' => :'FailureReason',
-        :'start_terminating_on' => :'DateTime',
-        :'state' => :'PaymentContractState',
-        :'terminated_by' => :'User',
-        :'terminated_on' => :'DateTime',
+        :'initiator' => :'ShopifySubscriptionSuspensionInitiator',
+        :'linked_space_id' => :'Integer',
+        :'planned_end_date' => :'DateTime',
+        :'shop' => :'Integer',
+        :'state' => :'ShopifySubscriptionSuspensionState',
+        :'subscription' => :'ShopifySubscription',
+        :'type' => :'ShopifySubscriptionSuspensionType',
         :'version' => :'Integer'
       }
     end
@@ -115,22 +105,6 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'account')
-        self.account = attributes[:'account']
-      end
-
-      if attributes.has_key?(:'activatedOn')
-        self.activated_on = attributes[:'activatedOn']
-      end
-
-      if attributes.has_key?(:'contractIdentifier')
-        self.contract_identifier = attributes[:'contractIdentifier']
-      end
-
-      if attributes.has_key?(:'contractType')
-        self.contract_type = attributes[:'contractType']
-      end
-
       if attributes.has_key?(:'createdBy')
         self.created_by = attributes[:'createdBy']
       end
@@ -139,36 +113,44 @@ module PostFinanceCheckout
         self.created_on = attributes[:'createdOn']
       end
 
-      if attributes.has_key?(:'externalId')
-        self.external_id = attributes[:'externalId']
+      if attributes.has_key?(:'endedBy')
+        self.ended_by = attributes[:'endedBy']
+      end
+
+      if attributes.has_key?(:'endedOn')
+        self.ended_on = attributes[:'endedOn']
       end
 
       if attributes.has_key?(:'id')
         self.id = attributes[:'id']
       end
 
-      if attributes.has_key?(:'rejectedOn')
-        self.rejected_on = attributes[:'rejectedOn']
+      if attributes.has_key?(:'initiator')
+        self.initiator = attributes[:'initiator']
       end
 
-      if attributes.has_key?(:'rejectionReason')
-        self.rejection_reason = attributes[:'rejectionReason']
+      if attributes.has_key?(:'linkedSpaceId')
+        self.linked_space_id = attributes[:'linkedSpaceId']
       end
 
-      if attributes.has_key?(:'startTerminatingOn')
-        self.start_terminating_on = attributes[:'startTerminatingOn']
+      if attributes.has_key?(:'plannedEndDate')
+        self.planned_end_date = attributes[:'plannedEndDate']
+      end
+
+      if attributes.has_key?(:'shop')
+        self.shop = attributes[:'shop']
       end
 
       if attributes.has_key?(:'state')
         self.state = attributes[:'state']
       end
 
-      if attributes.has_key?(:'terminatedBy')
-        self.terminated_by = attributes[:'terminatedBy']
+      if attributes.has_key?(:'subscription')
+        self.subscription = attributes[:'subscription']
       end
 
-      if attributes.has_key?(:'terminatedOn')
-        self.terminated_on = attributes[:'terminatedOn']
+      if attributes.has_key?(:'type')
+        self.type = attributes[:'type']
       end
 
       if attributes.has_key?(:'version')
@@ -194,20 +176,18 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          account == o.account &&
-          activated_on == o.activated_on &&
-          contract_identifier == o.contract_identifier &&
-          contract_type == o.contract_type &&
           created_by == o.created_by &&
           created_on == o.created_on &&
-          external_id == o.external_id &&
+          ended_by == o.ended_by &&
+          ended_on == o.ended_on &&
           id == o.id &&
-          rejected_on == o.rejected_on &&
-          rejection_reason == o.rejection_reason &&
-          start_terminating_on == o.start_terminating_on &&
+          initiator == o.initiator &&
+          linked_space_id == o.linked_space_id &&
+          planned_end_date == o.planned_end_date &&
+          shop == o.shop &&
           state == o.state &&
-          terminated_by == o.terminated_by &&
-          terminated_on == o.terminated_on &&
+          subscription == o.subscription &&
+          type == o.type &&
           version == o.version
     end
 
@@ -220,7 +200,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [account, activated_on, contract_identifier, contract_type, created_by, created_on, external_id, id, rejected_on, rejection_reason, start_terminating_on, state, terminated_by, terminated_on, version].hash
+      [created_by, created_on, ended_by, ended_on, id, initiator, linked_space_id, planned_end_date, shop, state, subscription, type, version].hash
     end
 
     # Builds the object from hash

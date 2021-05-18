@@ -19,91 +19,26 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class PaymentContract
+  class ShopifyRecurringOrderUpdateRequest
     # 
-    attr_accessor :account
-
-    # 
-    attr_accessor :activated_on
+    attr_accessor :execution_date
 
     # 
-    attr_accessor :contract_identifier
-
-    # 
-    attr_accessor :contract_type
-
-    # 
-    attr_accessor :created_by
-
-    # The created on date indicates the date on which the entity was stored into the database.
-    attr_accessor :created_on
-
-    # A client generated nonce which identifies the entity to be created. Subsequent creation requests with the same external ID will not create new entities but return the initially created entity instead.
-    attr_accessor :external_id
-
-    # The ID is the primary key of the entity. The ID identifies the entity uniquely.
-    attr_accessor :id
-
-    # 
-    attr_accessor :rejected_on
-
-    # 
-    attr_accessor :rejection_reason
-
-    # 
-    attr_accessor :start_terminating_on
-
-    # 
-    attr_accessor :state
-
-    # 
-    attr_accessor :terminated_by
-
-    # 
-    attr_accessor :terminated_on
-
-    # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
-    attr_accessor :version
+    attr_accessor :recurring_order_id
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'account' => :'account',
-        :'activated_on' => :'activatedOn',
-        :'contract_identifier' => :'contractIdentifier',
-        :'contract_type' => :'contractType',
-        :'created_by' => :'createdBy',
-        :'created_on' => :'createdOn',
-        :'external_id' => :'externalId',
-        :'id' => :'id',
-        :'rejected_on' => :'rejectedOn',
-        :'rejection_reason' => :'rejectionReason',
-        :'start_terminating_on' => :'startTerminatingOn',
-        :'state' => :'state',
-        :'terminated_by' => :'terminatedBy',
-        :'terminated_on' => :'terminatedOn',
-        :'version' => :'version'
+        :'execution_date' => :'executionDate',
+        :'recurring_order_id' => :'recurringOrderId'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'account' => :'Account',
-        :'activated_on' => :'DateTime',
-        :'contract_identifier' => :'String',
-        :'contract_type' => :'PaymentContractType',
-        :'created_by' => :'User',
-        :'created_on' => :'DateTime',
-        :'external_id' => :'String',
-        :'id' => :'Integer',
-        :'rejected_on' => :'DateTime',
-        :'rejection_reason' => :'FailureReason',
-        :'start_terminating_on' => :'DateTime',
-        :'state' => :'PaymentContractState',
-        :'terminated_by' => :'User',
-        :'terminated_on' => :'DateTime',
-        :'version' => :'Integer'
+        :'execution_date' => :'DateTime',
+        :'recurring_order_id' => :'Integer'
       }
     end
 
@@ -115,64 +50,12 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'account')
-        self.account = attributes[:'account']
+      if attributes.has_key?(:'executionDate')
+        self.execution_date = attributes[:'executionDate']
       end
 
-      if attributes.has_key?(:'activatedOn')
-        self.activated_on = attributes[:'activatedOn']
-      end
-
-      if attributes.has_key?(:'contractIdentifier')
-        self.contract_identifier = attributes[:'contractIdentifier']
-      end
-
-      if attributes.has_key?(:'contractType')
-        self.contract_type = attributes[:'contractType']
-      end
-
-      if attributes.has_key?(:'createdBy')
-        self.created_by = attributes[:'createdBy']
-      end
-
-      if attributes.has_key?(:'createdOn')
-        self.created_on = attributes[:'createdOn']
-      end
-
-      if attributes.has_key?(:'externalId')
-        self.external_id = attributes[:'externalId']
-      end
-
-      if attributes.has_key?(:'id')
-        self.id = attributes[:'id']
-      end
-
-      if attributes.has_key?(:'rejectedOn')
-        self.rejected_on = attributes[:'rejectedOn']
-      end
-
-      if attributes.has_key?(:'rejectionReason')
-        self.rejection_reason = attributes[:'rejectionReason']
-      end
-
-      if attributes.has_key?(:'startTerminatingOn')
-        self.start_terminating_on = attributes[:'startTerminatingOn']
-      end
-
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
-      end
-
-      if attributes.has_key?(:'terminatedBy')
-        self.terminated_by = attributes[:'terminatedBy']
-      end
-
-      if attributes.has_key?(:'terminatedOn')
-        self.terminated_on = attributes[:'terminatedOn']
-      end
-
-      if attributes.has_key?(:'version')
-        self.version = attributes[:'version']
+      if attributes.has_key?(:'recurringOrderId')
+        self.recurring_order_id = attributes[:'recurringOrderId']
       end
     end
 
@@ -194,21 +77,8 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          account == o.account &&
-          activated_on == o.activated_on &&
-          contract_identifier == o.contract_identifier &&
-          contract_type == o.contract_type &&
-          created_by == o.created_by &&
-          created_on == o.created_on &&
-          external_id == o.external_id &&
-          id == o.id &&
-          rejected_on == o.rejected_on &&
-          rejection_reason == o.rejection_reason &&
-          start_terminating_on == o.start_terminating_on &&
-          state == o.state &&
-          terminated_by == o.terminated_by &&
-          terminated_on == o.terminated_on &&
-          version == o.version
+          execution_date == o.execution_date &&
+          recurring_order_id == o.recurring_order_id
     end
 
     # @see the `==` method
@@ -220,7 +90,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [account, activated_on, contract_identifier, contract_type, created_by, created_on, external_id, id, rejected_on, rejection_reason, start_terminating_on, state, terminated_by, terminated_on, version].hash
+      [execution_date, recurring_order_id].hash
     end
 
     # Builds the object from hash
