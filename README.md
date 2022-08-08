@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/pfpayments/ruby-sdk.svg?branch=master)](https://travis-ci.org/pfpayments/ruby-sdk)
-
 # PostFinance Checkout Ruby Library
 
 The PostFinance Checkout Ruby library wraps around the PostFinance Checkout API. This library facilitates your interaction with various services such as transactions, accounts, and subscriptions.

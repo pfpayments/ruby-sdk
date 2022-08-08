@@ -19,26 +19,46 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class TransactionLineItemUpdateRequest
+  class InvoiceReconciliationRecordInvoiceLink
     # 
-    attr_accessor :new_line_items
+    attr_accessor :amount
+
+    # The created on date indicates the date on which the entity was stored into the database.
+    attr_accessor :created_on
+
+    # The ID is the primary key of the entity. The ID identifies the entity uniquely.
+    attr_accessor :id
 
     # 
-    attr_accessor :transaction_id
+    attr_accessor :invoice
+
+    # The linked space id holds the ID of the space to which the entity belongs to.
+    attr_accessor :linked_space_id
+
+    # 
+    attr_accessor :record
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'new_line_items' => :'newLineItems',
-        :'transaction_id' => :'transactionId'
+        :'amount' => :'amount',
+        :'created_on' => :'createdOn',
+        :'id' => :'id',
+        :'invoice' => :'invoice',
+        :'linked_space_id' => :'linkedSpaceId',
+        :'record' => :'record'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'new_line_items' => :'Array<LineItemCreate>',
-        :'transaction_id' => :'Integer'
+        :'amount' => :'Float',
+        :'created_on' => :'DateTime',
+        :'id' => :'Integer',
+        :'invoice' => :'TransactionInvoice',
+        :'linked_space_id' => :'Integer',
+        :'record' => :'InvoiceReconciliationRecord'
       }
     end
 
@@ -50,14 +70,28 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'newLineItems')
-        if (value = attributes[:'newLineItems']).is_a?(Array)
-          self.new_line_items = value
-        end
+      if attributes.has_key?(:'amount')
+        self.amount = attributes[:'amount']
       end
 
-      if attributes.has_key?(:'transactionId')
-        self.transaction_id = attributes[:'transactionId']
+      if attributes.has_key?(:'createdOn')
+        self.created_on = attributes[:'createdOn']
+      end
+
+      if attributes.has_key?(:'id')
+        self.id = attributes[:'id']
+      end
+
+      if attributes.has_key?(:'invoice')
+        self.invoice = attributes[:'invoice']
+      end
+
+      if attributes.has_key?(:'linkedSpaceId')
+        self.linked_space_id = attributes[:'linkedSpaceId']
+      end
+
+      if attributes.has_key?(:'record')
+        self.record = attributes[:'record']
       end
     end
 
@@ -65,17 +99,12 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @transaction_id.nil?
-        invalid_properties.push('invalid value for "transaction_id", transaction_id cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @transaction_id.nil?
       true
     end
 
@@ -84,8 +113,12 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          new_line_items == o.new_line_items &&
-          transaction_id == o.transaction_id
+          amount == o.amount &&
+          created_on == o.created_on &&
+          id == o.id &&
+          invoice == o.invoice &&
+          linked_space_id == o.linked_space_id &&
+          record == o.record
     end
 
     # @see the `==` method
@@ -97,7 +130,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [new_line_items, transaction_id].hash
+      [amount, created_on, id, invoice, linked_space_id, record].hash
     end
 
     # Builds the object from hash

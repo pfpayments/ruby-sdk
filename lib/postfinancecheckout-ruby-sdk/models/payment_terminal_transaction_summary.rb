@@ -19,18 +19,12 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class PaymentTerminalLocationVersion
+  class PaymentTerminalTransactionSummary
     # 
-    attr_accessor :address
+    attr_accessor :dcc_transaction_sums
 
     # 
-    attr_accessor :contact_address
-
-    # 
-    attr_accessor :created_by
-
-    # The created on date indicates the date on which the entity was stored into the database.
-    attr_accessor :created_on
+    attr_accessor :ended_on
 
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
@@ -39,51 +33,52 @@ module PostFinanceCheckout
     attr_accessor :linked_space_id
 
     # 
-    attr_accessor :location
-
-    # The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
-    attr_accessor :planned_purge_date
+    attr_accessor :number_of_transactions
 
     # 
-    attr_accessor :state
+    attr_accessor :payment_terminal
+
+    # 
+    attr_accessor :receipt
+
+    # 
+    attr_accessor :started_on
+
+    # 
+    attr_accessor :transaction_sums
 
     # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
     attr_accessor :version
 
-    # 
-    attr_accessor :version_applied_immediately
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'address' => :'address',
-        :'contact_address' => :'contactAddress',
-        :'created_by' => :'createdBy',
-        :'created_on' => :'createdOn',
+        :'dcc_transaction_sums' => :'dccTransactionSums',
+        :'ended_on' => :'endedOn',
         :'id' => :'id',
         :'linked_space_id' => :'linkedSpaceId',
-        :'location' => :'location',
-        :'planned_purge_date' => :'plannedPurgeDate',
-        :'state' => :'state',
-        :'version' => :'version',
-        :'version_applied_immediately' => :'versionAppliedImmediately'
+        :'number_of_transactions' => :'numberOfTransactions',
+        :'payment_terminal' => :'paymentTerminal',
+        :'receipt' => :'receipt',
+        :'started_on' => :'startedOn',
+        :'transaction_sums' => :'transactionSums',
+        :'version' => :'version'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'address' => :'PaymentTerminalAddress',
-        :'contact_address' => :'PaymentTerminalAddress',
-        :'created_by' => :'Integer',
-        :'created_on' => :'DateTime',
+        :'dcc_transaction_sums' => :'Array<PaymentTerminalDccTransactionSum>',
+        :'ended_on' => :'DateTime',
         :'id' => :'Integer',
         :'linked_space_id' => :'Integer',
-        :'location' => :'PaymentTerminalLocation',
-        :'planned_purge_date' => :'DateTime',
-        :'state' => :'PaymentTerminalLocationVersionState',
-        :'version' => :'Integer',
-        :'version_applied_immediately' => :'BOOLEAN'
+        :'number_of_transactions' => :'Integer',
+        :'payment_terminal' => :'Integer',
+        :'receipt' => :'String',
+        :'started_on' => :'DateTime',
+        :'transaction_sums' => :'Array<PaymentTerminalTransactionSum>',
+        :'version' => :'Integer'
       }
     end
 
@@ -95,20 +90,14 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'address')
-        self.address = attributes[:'address']
+      if attributes.has_key?(:'dccTransactionSums')
+        if (value = attributes[:'dccTransactionSums']).is_a?(Array)
+          self.dcc_transaction_sums = value
+        end
       end
 
-      if attributes.has_key?(:'contactAddress')
-        self.contact_address = attributes[:'contactAddress']
-      end
-
-      if attributes.has_key?(:'createdBy')
-        self.created_by = attributes[:'createdBy']
-      end
-
-      if attributes.has_key?(:'createdOn')
-        self.created_on = attributes[:'createdOn']
+      if attributes.has_key?(:'endedOn')
+        self.ended_on = attributes[:'endedOn']
       end
 
       if attributes.has_key?(:'id')
@@ -119,24 +108,30 @@ module PostFinanceCheckout
         self.linked_space_id = attributes[:'linkedSpaceId']
       end
 
-      if attributes.has_key?(:'location')
-        self.location = attributes[:'location']
+      if attributes.has_key?(:'numberOfTransactions')
+        self.number_of_transactions = attributes[:'numberOfTransactions']
       end
 
-      if attributes.has_key?(:'plannedPurgeDate')
-        self.planned_purge_date = attributes[:'plannedPurgeDate']
+      if attributes.has_key?(:'paymentTerminal')
+        self.payment_terminal = attributes[:'paymentTerminal']
       end
 
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
+      if attributes.has_key?(:'receipt')
+        self.receipt = attributes[:'receipt']
+      end
+
+      if attributes.has_key?(:'startedOn')
+        self.started_on = attributes[:'startedOn']
+      end
+
+      if attributes.has_key?(:'transactionSums')
+        if (value = attributes[:'transactionSums']).is_a?(Array)
+          self.transaction_sums = value
+        end
       end
 
       if attributes.has_key?(:'version')
         self.version = attributes[:'version']
-      end
-
-      if attributes.has_key?(:'versionAppliedImmediately')
-        self.version_applied_immediately = attributes[:'versionAppliedImmediately']
       end
     end
 
@@ -158,17 +153,16 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          address == o.address &&
-          contact_address == o.contact_address &&
-          created_by == o.created_by &&
-          created_on == o.created_on &&
+          dcc_transaction_sums == o.dcc_transaction_sums &&
+          ended_on == o.ended_on &&
           id == o.id &&
           linked_space_id == o.linked_space_id &&
-          location == o.location &&
-          planned_purge_date == o.planned_purge_date &&
-          state == o.state &&
-          version == o.version &&
-          version_applied_immediately == o.version_applied_immediately
+          number_of_transactions == o.number_of_transactions &&
+          payment_terminal == o.payment_terminal &&
+          receipt == o.receipt &&
+          started_on == o.started_on &&
+          transaction_sums == o.transaction_sums &&
+          version == o.version
     end
 
     # @see the `==` method
@@ -180,7 +174,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [address, contact_address, created_by, created_on, id, linked_space_id, location, planned_purge_date, state, version, version_applied_immediately].hash
+      [dcc_transaction_sums, ended_on, id, linked_space_id, number_of_transactions, payment_terminal, receipt, started_on, transaction_sums, version].hash
     end
 
     # Builds the object from hash

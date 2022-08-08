@@ -18,72 +18,32 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class PaymentTerminalLocationVersion
-    # 
-    attr_accessor :address
+  # The receipt fetch request allows to retrieve the receipt documents for a terminal transaction.
+  class PaymentTerminalTransactionSummaryFetchRequest
+    # The format determines in what format the receipt will be returned in.
+    attr_accessor :format
 
-    # 
-    attr_accessor :contact_address
+    # The id of the transaction summary receipt whose content should be returned.
+    attr_accessor :summary_id
 
-    # 
-    attr_accessor :created_by
-
-    # The created on date indicates the date on which the entity was stored into the database.
-    attr_accessor :created_on
-
-    # The ID is the primary key of the entity. The ID identifies the entity uniquely.
-    attr_accessor :id
-
-    # The linked space id holds the ID of the space to which the entity belongs to.
-    attr_accessor :linked_space_id
-
-    # 
-    attr_accessor :location
-
-    # The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
-    attr_accessor :planned_purge_date
-
-    # 
-    attr_accessor :state
-
-    # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
-    attr_accessor :version
-
-    # 
-    attr_accessor :version_applied_immediately
+    # The width controls how width the document will be rendered. In case of the PDF format the width is in mm. In case of the text format the width is in the number of chars per line.
+    attr_accessor :width
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'address' => :'address',
-        :'contact_address' => :'contactAddress',
-        :'created_by' => :'createdBy',
-        :'created_on' => :'createdOn',
-        :'id' => :'id',
-        :'linked_space_id' => :'linkedSpaceId',
-        :'location' => :'location',
-        :'planned_purge_date' => :'plannedPurgeDate',
-        :'state' => :'state',
-        :'version' => :'version',
-        :'version_applied_immediately' => :'versionAppliedImmediately'
+        :'format' => :'format',
+        :'summary_id' => :'summaryId',
+        :'width' => :'width'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'address' => :'PaymentTerminalAddress',
-        :'contact_address' => :'PaymentTerminalAddress',
-        :'created_by' => :'Integer',
-        :'created_on' => :'DateTime',
-        :'id' => :'Integer',
-        :'linked_space_id' => :'Integer',
-        :'location' => :'PaymentTerminalLocation',
-        :'planned_purge_date' => :'DateTime',
-        :'state' => :'PaymentTerminalLocationVersionState',
-        :'version' => :'Integer',
-        :'version_applied_immediately' => :'BOOLEAN'
+        :'format' => :'TerminalReceiptFormat',
+        :'summary_id' => :'Integer',
+        :'width' => :'Integer'
       }
     end
 
@@ -95,48 +55,16 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'address')
-        self.address = attributes[:'address']
+      if attributes.has_key?(:'format')
+        self.format = attributes[:'format']
       end
 
-      if attributes.has_key?(:'contactAddress')
-        self.contact_address = attributes[:'contactAddress']
+      if attributes.has_key?(:'summaryId')
+        self.summary_id = attributes[:'summaryId']
       end
 
-      if attributes.has_key?(:'createdBy')
-        self.created_by = attributes[:'createdBy']
-      end
-
-      if attributes.has_key?(:'createdOn')
-        self.created_on = attributes[:'createdOn']
-      end
-
-      if attributes.has_key?(:'id')
-        self.id = attributes[:'id']
-      end
-
-      if attributes.has_key?(:'linkedSpaceId')
-        self.linked_space_id = attributes[:'linkedSpaceId']
-      end
-
-      if attributes.has_key?(:'location')
-        self.location = attributes[:'location']
-      end
-
-      if attributes.has_key?(:'plannedPurgeDate')
-        self.planned_purge_date = attributes[:'plannedPurgeDate']
-      end
-
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
-      end
-
-      if attributes.has_key?(:'version')
-        self.version = attributes[:'version']
-      end
-
-      if attributes.has_key?(:'versionAppliedImmediately')
-        self.version_applied_immediately = attributes[:'versionAppliedImmediately']
+      if attributes.has_key?(:'width')
+        self.width = attributes[:'width']
       end
     end
 
@@ -144,12 +72,22 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @format.nil?
+        invalid_properties.push('invalid value for "format", format cannot be nil.')
+      end
+
+      if @summary_id.nil?
+        invalid_properties.push('invalid value for "summary_id", summary_id cannot be nil.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if @format.nil?
+      return false if @summary_id.nil?
       true
     end
 
@@ -158,17 +96,9 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          address == o.address &&
-          contact_address == o.contact_address &&
-          created_by == o.created_by &&
-          created_on == o.created_on &&
-          id == o.id &&
-          linked_space_id == o.linked_space_id &&
-          location == o.location &&
-          planned_purge_date == o.planned_purge_date &&
-          state == o.state &&
-          version == o.version &&
-          version_applied_immediately == o.version_applied_immediately
+          format == o.format &&
+          summary_id == o.summary_id &&
+          width == o.width
     end
 
     # @see the `==` method
@@ -180,7 +110,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [address, contact_address, created_by, created_on, id, linked_space_id, location, planned_purge_date, state, version, version_applied_immediately].hash
+      [format, summary_id, width].hash
     end
 
     # Builds the object from hash

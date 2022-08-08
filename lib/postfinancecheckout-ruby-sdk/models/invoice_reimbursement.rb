@@ -19,18 +19,21 @@ require 'date'
 
 module PostFinanceCheckout
   # 
-  class PaymentTerminalLocationVersion
+  class InvoiceReimbursement
     # 
-    attr_accessor :address
-
-    # 
-    attr_accessor :contact_address
-
-    # 
-    attr_accessor :created_by
+    attr_accessor :amount
 
     # The created on date indicates the date on which the entity was stored into the database.
     attr_accessor :created_on
+
+    # 
+    attr_accessor :currency
+
+    # 
+    attr_accessor :discarded_by
+
+    # 
+    attr_accessor :discarded_on
 
     # The ID is the primary key of the entity. The ID identifies the entity uniquely.
     attr_accessor :id
@@ -39,10 +42,40 @@ module PostFinanceCheckout
     attr_accessor :linked_space_id
 
     # 
-    attr_accessor :location
+    attr_accessor :payment_connector_configuration
 
-    # The planned purge date indicates when the entity is permanently removed. When the date is null the entity is not planned to be removed.
-    attr_accessor :planned_purge_date
+    # 
+    attr_accessor :payment_initiation_advice_file
+
+    # 
+    attr_accessor :processed_by
+
+    # 
+    attr_accessor :processed_on
+
+    # 
+    attr_accessor :recipient_city
+
+    # 
+    attr_accessor :recipient_country
+
+    # 
+    attr_accessor :recipient_family_name
+
+    # 
+    attr_accessor :recipient_given_name
+
+    # 
+    attr_accessor :recipient_iban
+
+    # 
+    attr_accessor :recipient_postcode
+
+    # 
+    attr_accessor :recipient_street
+
+    # 
+    attr_accessor :sender_iban
 
     # 
     attr_accessor :state
@@ -50,40 +83,57 @@ module PostFinanceCheckout
     # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
     attr_accessor :version
 
-    # 
-    attr_accessor :version_applied_immediately
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'address' => :'address',
-        :'contact_address' => :'contactAddress',
-        :'created_by' => :'createdBy',
+        :'amount' => :'amount',
         :'created_on' => :'createdOn',
+        :'currency' => :'currency',
+        :'discarded_by' => :'discardedBy',
+        :'discarded_on' => :'discardedOn',
         :'id' => :'id',
         :'linked_space_id' => :'linkedSpaceId',
-        :'location' => :'location',
-        :'planned_purge_date' => :'plannedPurgeDate',
+        :'payment_connector_configuration' => :'paymentConnectorConfiguration',
+        :'payment_initiation_advice_file' => :'paymentInitiationAdviceFile',
+        :'processed_by' => :'processedBy',
+        :'processed_on' => :'processedOn',
+        :'recipient_city' => :'recipientCity',
+        :'recipient_country' => :'recipientCountry',
+        :'recipient_family_name' => :'recipientFamilyName',
+        :'recipient_given_name' => :'recipientGivenName',
+        :'recipient_iban' => :'recipientIban',
+        :'recipient_postcode' => :'recipientPostcode',
+        :'recipient_street' => :'recipientStreet',
+        :'sender_iban' => :'senderIban',
         :'state' => :'state',
-        :'version' => :'version',
-        :'version_applied_immediately' => :'versionAppliedImmediately'
+        :'version' => :'version'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'address' => :'PaymentTerminalAddress',
-        :'contact_address' => :'PaymentTerminalAddress',
-        :'created_by' => :'Integer',
+        :'amount' => :'Float',
         :'created_on' => :'DateTime',
+        :'currency' => :'String',
+        :'discarded_by' => :'Integer',
+        :'discarded_on' => :'DateTime',
         :'id' => :'Integer',
         :'linked_space_id' => :'Integer',
-        :'location' => :'PaymentTerminalLocation',
-        :'planned_purge_date' => :'DateTime',
-        :'state' => :'PaymentTerminalLocationVersionState',
-        :'version' => :'Integer',
-        :'version_applied_immediately' => :'BOOLEAN'
+        :'payment_connector_configuration' => :'PaymentConnectorConfiguration',
+        :'payment_initiation_advice_file' => :'PaymentInitiationAdviceFile',
+        :'processed_by' => :'Integer',
+        :'processed_on' => :'DateTime',
+        :'recipient_city' => :'String',
+        :'recipient_country' => :'String',
+        :'recipient_family_name' => :'String',
+        :'recipient_given_name' => :'String',
+        :'recipient_iban' => :'String',
+        :'recipient_postcode' => :'String',
+        :'recipient_street' => :'String',
+        :'sender_iban' => :'String',
+        :'state' => :'InvoiceReimbursementState',
+        :'version' => :'Integer'
       }
     end
 
@@ -95,20 +145,24 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'address')
-        self.address = attributes[:'address']
-      end
-
-      if attributes.has_key?(:'contactAddress')
-        self.contact_address = attributes[:'contactAddress']
-      end
-
-      if attributes.has_key?(:'createdBy')
-        self.created_by = attributes[:'createdBy']
+      if attributes.has_key?(:'amount')
+        self.amount = attributes[:'amount']
       end
 
       if attributes.has_key?(:'createdOn')
         self.created_on = attributes[:'createdOn']
+      end
+
+      if attributes.has_key?(:'currency')
+        self.currency = attributes[:'currency']
+      end
+
+      if attributes.has_key?(:'discardedBy')
+        self.discarded_by = attributes[:'discardedBy']
+      end
+
+      if attributes.has_key?(:'discardedOn')
+        self.discarded_on = attributes[:'discardedOn']
       end
 
       if attributes.has_key?(:'id')
@@ -119,12 +173,52 @@ module PostFinanceCheckout
         self.linked_space_id = attributes[:'linkedSpaceId']
       end
 
-      if attributes.has_key?(:'location')
-        self.location = attributes[:'location']
+      if attributes.has_key?(:'paymentConnectorConfiguration')
+        self.payment_connector_configuration = attributes[:'paymentConnectorConfiguration']
       end
 
-      if attributes.has_key?(:'plannedPurgeDate')
-        self.planned_purge_date = attributes[:'plannedPurgeDate']
+      if attributes.has_key?(:'paymentInitiationAdviceFile')
+        self.payment_initiation_advice_file = attributes[:'paymentInitiationAdviceFile']
+      end
+
+      if attributes.has_key?(:'processedBy')
+        self.processed_by = attributes[:'processedBy']
+      end
+
+      if attributes.has_key?(:'processedOn')
+        self.processed_on = attributes[:'processedOn']
+      end
+
+      if attributes.has_key?(:'recipientCity')
+        self.recipient_city = attributes[:'recipientCity']
+      end
+
+      if attributes.has_key?(:'recipientCountry')
+        self.recipient_country = attributes[:'recipientCountry']
+      end
+
+      if attributes.has_key?(:'recipientFamilyName')
+        self.recipient_family_name = attributes[:'recipientFamilyName']
+      end
+
+      if attributes.has_key?(:'recipientGivenName')
+        self.recipient_given_name = attributes[:'recipientGivenName']
+      end
+
+      if attributes.has_key?(:'recipientIban')
+        self.recipient_iban = attributes[:'recipientIban']
+      end
+
+      if attributes.has_key?(:'recipientPostcode')
+        self.recipient_postcode = attributes[:'recipientPostcode']
+      end
+
+      if attributes.has_key?(:'recipientStreet')
+        self.recipient_street = attributes[:'recipientStreet']
+      end
+
+      if attributes.has_key?(:'senderIban')
+        self.sender_iban = attributes[:'senderIban']
       end
 
       if attributes.has_key?(:'state')
@@ -133,10 +227,6 @@ module PostFinanceCheckout
 
       if attributes.has_key?(:'version')
         self.version = attributes[:'version']
-      end
-
-      if attributes.has_key?(:'versionAppliedImmediately')
-        self.version_applied_immediately = attributes[:'versionAppliedImmediately']
       end
     end
 
@@ -158,17 +248,27 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          address == o.address &&
-          contact_address == o.contact_address &&
-          created_by == o.created_by &&
+          amount == o.amount &&
           created_on == o.created_on &&
+          currency == o.currency &&
+          discarded_by == o.discarded_by &&
+          discarded_on == o.discarded_on &&
           id == o.id &&
           linked_space_id == o.linked_space_id &&
-          location == o.location &&
-          planned_purge_date == o.planned_purge_date &&
+          payment_connector_configuration == o.payment_connector_configuration &&
+          payment_initiation_advice_file == o.payment_initiation_advice_file &&
+          processed_by == o.processed_by &&
+          processed_on == o.processed_on &&
+          recipient_city == o.recipient_city &&
+          recipient_country == o.recipient_country &&
+          recipient_family_name == o.recipient_family_name &&
+          recipient_given_name == o.recipient_given_name &&
+          recipient_iban == o.recipient_iban &&
+          recipient_postcode == o.recipient_postcode &&
+          recipient_street == o.recipient_street &&
+          sender_iban == o.sender_iban &&
           state == o.state &&
-          version == o.version &&
-          version_applied_immediately == o.version_applied_immediately
+          version == o.version
     end
 
     # @see the `==` method
@@ -180,7 +280,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [address, contact_address, created_by, created_on, id, linked_space_id, location, planned_purge_date, state, version, version_applied_immediately].hash
+      [amount, created_on, currency, discarded_by, discarded_on, id, linked_space_id, payment_connector_configuration, payment_initiation_advice_file, processed_by, processed_on, recipient_city, recipient_country, recipient_family_name, recipient_given_name, recipient_iban, recipient_postcode, recipient_street, sender_iban, state, version].hash
     end
 
     # Builds the object from hash

@@ -18,21 +18,17 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  class PaymentTerminalState
+  class PaymentInitiationAdviceFileState
     
-    CREATE = 'CREATE'.freeze
-    PREPARING = 'PREPARING'.freeze
-    ACTIVE = 'ACTIVE'.freeze
-    INACTIVE = 'INACTIVE'.freeze
-    DECOMMISSIONING = 'DECOMMISSIONING'.freeze
-    DECOMMISSIONED = 'DECOMMISSIONED'.freeze
+    PENDING = 'PENDING'.freeze
+    PROCESSED = 'PROCESSED'.freeze
 
     # Builds the enum from string
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
     def build_from_hash(value)
-      constantValues = PaymentTerminalState.constants.select { |c| PaymentTerminalState::const_get(c) == value }
-      raise "Invalid ENUM value #{value} for class #PaymentTerminalState" if constantValues.empty?
+      constantValues = PaymentInitiationAdviceFileState.constants.select { |c| PaymentInitiationAdviceFileState::const_get(c) == value }
+      raise "Invalid ENUM value #{value} for class #PaymentInitiationAdviceFileState" if constantValues.empty?
       value
     end
   end
