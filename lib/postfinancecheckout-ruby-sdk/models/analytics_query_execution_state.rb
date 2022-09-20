@@ -15,6 +15,23 @@ limitations under the License.
 
 =end
 
+require 'date'
+
 module PostFinanceCheckout
-  VERSION = '3.1.5'
+  class AnalyticsQueryExecutionState
+    
+    PROCESSING = 'PROCESSING'.freeze
+    PROCESSED = 'PROCESSED'.freeze
+    FAILED = 'FAILED'.freeze
+    CANCELED = 'CANCELED'.freeze
+
+    # Builds the enum from string
+    # @param [String] The enum value in the form of the string
+    # @return [String] The enum value
+    def build_from_hash(value)
+      constantValues = AnalyticsQueryExecutionState.constants.select { |c| AnalyticsQueryExecutionState::const_get(c) == value }
+      raise "Invalid ENUM value #{value} for class #AnalyticsQueryExecutionState" if constantValues.empty?
+      value
+    end
+  end
 end

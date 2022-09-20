@@ -18,36 +18,47 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class RenderedTerminalReceipt
-    attr_accessor :data
+  # Represents a query to be submitted for execution in Analytics.
+  class AnalyticsQuery
+    # The mandatory ID of an account in which the query shall be executed. Must be a valid account ID greater than 0.
+    attr_accessor :account_id
 
-    # The mime type indicates the format of the receipt document. The mime type depends on the requested receipt format.
-    attr_accessor :mime_type
+    # A client generated nonce which uniquely identifies the query to be executed. Subsequent submissions with the same external ID will not re-execute the query but instead return the existing execution with that ID. Either the External ID or a Maximal Cache Age greater than 0 must be specified. If both are specified the External ID will have precedence and the Maximal Cache Age will be ignored.
+    attr_accessor :external_id
 
-    # The terminal might or might not print the receipt. This property is set to true when the configuration of the terminal forces the printing and the device supports the receipt printing.
-    attr_accessor :printed
+    # The maximal age in minutes of cached query executions to return. If an equivalent query execution with the same Query String, Account ID and Spaces parameters not older than the specified age is already available that execution will be returned instead of a newly started execution. Set to 0 or null (and set a unique, previously unused External ID) to force a new query execution irrespective of previous executions. Either the External ID or a Cache Duration greater than 0 must be specified. If both are specified, the External ID will be preferred (and the Maximal Cache Age ignored).
+    attr_accessor :max_cache_age
 
-    # Each receipt has a different usage. The receipt type indicates for what resp. for whom the document is for.
-    attr_accessor :receipt_type
+    # The SQL statement which is being submitted for execution. Must be a valid PrestoDB/Athena SQL statement.
+    attr_accessor :query_string
+
+    # The maximal amount of scanned data that this query is allowed to scan. After this limit is reached query will be canceled by the system. 
+    attr_accessor :scanned_data_limit
+
+    # The IDs of the spaces in which the query shall be executed. At most 5 space IDs may be specified. All specified spaces must be owned by the account specified by the accountId property. The spaces property may be missing or empty to query all spaces of the specified account.
+    attr_accessor :space_ids
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'data' => :'data',
-        :'mime_type' => :'mimeType',
-        :'printed' => :'printed',
-        :'receipt_type' => :'receiptType'
+        :'account_id' => :'accountId',
+        :'external_id' => :'externalId',
+        :'max_cache_age' => :'maxCacheAge',
+        :'query_string' => :'queryString',
+        :'scanned_data_limit' => :'scannedDataLimit',
+        :'space_ids' => :'spaceIds'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'data' => :'String',
-        :'mime_type' => :'String',
-        :'printed' => :'BOOLEAN',
-        :'receipt_type' => :'PaymentTerminalReceiptType'
+        :'account_id' => :'Integer',
+        :'external_id' => :'String',
+        :'max_cache_age' => :'Integer',
+        :'query_string' => :'String',
+        :'scanned_data_limit' => :'Float',
+        :'space_ids' => :'Array<Integer>'
       }
     end
 
@@ -59,20 +70,30 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'data')
-        self.data = attributes[:'data']
+      if attributes.has_key?(:'accountId')
+        self.account_id = attributes[:'accountId']
       end
 
-      if attributes.has_key?(:'mimeType')
-        self.mime_type = attributes[:'mimeType']
+      if attributes.has_key?(:'externalId')
+        self.external_id = attributes[:'externalId']
       end
 
-      if attributes.has_key?(:'printed')
-        self.printed = attributes[:'printed']
+      if attributes.has_key?(:'maxCacheAge')
+        self.max_cache_age = attributes[:'maxCacheAge']
       end
 
-      if attributes.has_key?(:'receiptType')
-        self.receipt_type = attributes[:'receiptType']
+      if attributes.has_key?(:'queryString')
+        self.query_string = attributes[:'queryString']
+      end
+
+      if attributes.has_key?(:'scannedDataLimit')
+        self.scanned_data_limit = attributes[:'scannedDataLimit']
+      end
+
+      if attributes.has_key?(:'spaceIds')
+        if (value = attributes[:'spaceIds']).is_a?(Array)
+          self.space_ids = value
+        end
       end
     end
 
@@ -80,8 +101,16 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        invalid_properties.push('invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.')
+      if @account_id.nil?
+        invalid_properties.push('invalid value for "account_id", account_id cannot be nil.')
+      end
+
+      if !@query_string.nil? && @query_string.to_s.length > 4096
+        invalid_properties.push('invalid value for "query_string", the character length must be smaller than or equal to 4096.')
+      end
+
+      if !@query_string.nil? && @query_string.to_s.length < 1
+        invalid_properties.push('invalid value for "query_string", the character length must be great than or equal to 1.')
       end
 
       invalid_properties
@@ -90,18 +119,24 @@ module PostFinanceCheckout
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
+      return false if @account_id.nil?
+      return false if !@query_string.nil? && @query_string.to_s.length > 4096
+      return false if !@query_string.nil? && @query_string.to_s.length < 1
       true
     end
 
     # Custom attribute writer method with validation
-    # @param [Object] data Value to be assigned
-    def data=(data)
-      if !data.nil? && data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        fail ArgumentError, 'invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.'
+    # @param [Object] query_string Value to be assigned
+    def query_string=(query_string)
+      if !query_string.nil? && query_string.to_s.length > 4096
+        fail ArgumentError, 'invalid value for "query_string", the character length must be smaller than or equal to 4096.'
       end
 
-      @data = data
+      if !query_string.nil? && query_string.to_s.length < 1
+        fail ArgumentError, 'invalid value for "query_string", the character length must be great than or equal to 1.'
+      end
+
+      @query_string = query_string
     end
 
     # Checks equality by comparing each attribute.
@@ -109,10 +144,12 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          data == o.data &&
-          mime_type == o.mime_type &&
-          printed == o.printed &&
-          receipt_type == o.receipt_type
+          account_id == o.account_id &&
+          external_id == o.external_id &&
+          max_cache_age == o.max_cache_age &&
+          query_string == o.query_string &&
+          scanned_data_limit == o.scanned_data_limit &&
+          space_ids == o.space_ids
     end
 
     # @see the `==` method
@@ -124,7 +161,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [data, mime_type, printed, receipt_type].hash
+      [account_id, external_id, max_cache_age, query_string, scanned_data_limit, space_ids].hash
     end
 
     # Builds the object from hash

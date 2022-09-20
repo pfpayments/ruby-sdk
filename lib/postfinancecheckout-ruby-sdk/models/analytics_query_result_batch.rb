@@ -18,36 +18,37 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class RenderedTerminalReceipt
-    attr_accessor :data
+  # A batch of the result of a query executed in Analytics.
+  class AnalyticsQueryResultBatch
+    # The schemas of the columns returned by the query (in order). Will be null if the results of the query are not (yet) available.
+    attr_accessor :columns
 
-    # The mime type indicates the format of the receipt document. The mime type depends on the requested receipt format.
-    attr_accessor :mime_type
+    # The token to be provided to fetch the next batch of results. May be null if no more result batches are available.
+    attr_accessor :next_token
 
-    # The terminal might or might not print the receipt. This property is set to true when the configuration of the terminal forces the printing and the device supports the receipt printing.
-    attr_accessor :printed
+    # The query execution which produced the result.
+    attr_accessor :query_execution
 
-    # Each receipt has a different usage. The receipt type indicates for what resp. for whom the document is for.
-    attr_accessor :receipt_type
+    # The rows of the result set contained in this batch where each row is a list of column values (in order of the columns specified in the query). Will be null if the results of the query are not (yet) available.
+    attr_accessor :rows
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'data' => :'data',
-        :'mime_type' => :'mimeType',
-        :'printed' => :'printed',
-        :'receipt_type' => :'receiptType'
+        :'columns' => :'columns',
+        :'next_token' => :'nextToken',
+        :'query_execution' => :'queryExecution',
+        :'rows' => :'rows'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'data' => :'String',
-        :'mime_type' => :'String',
-        :'printed' => :'BOOLEAN',
-        :'receipt_type' => :'PaymentTerminalReceiptType'
+        :'columns' => :'Array<AnalyticsSchemaColumn>',
+        :'next_token' => :'String',
+        :'query_execution' => :'AnalyticsQueryExecution',
+        :'rows' => :'Array<Array<String>>'
       }
     end
 
@@ -59,20 +60,24 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'data')
-        self.data = attributes[:'data']
+      if attributes.has_key?(:'columns')
+        if (value = attributes[:'columns']).is_a?(Array)
+          self.columns = value
+        end
       end
 
-      if attributes.has_key?(:'mimeType')
-        self.mime_type = attributes[:'mimeType']
+      if attributes.has_key?(:'nextToken')
+        self.next_token = attributes[:'nextToken']
       end
 
-      if attributes.has_key?(:'printed')
-        self.printed = attributes[:'printed']
+      if attributes.has_key?(:'queryExecution')
+        self.query_execution = attributes[:'queryExecution']
       end
 
-      if attributes.has_key?(:'receiptType')
-        self.receipt_type = attributes[:'receiptType']
+      if attributes.has_key?(:'rows')
+        if (value = attributes[:'rows']).is_a?(Array)
+          self.rows = value
+        end
       end
     end
 
@@ -80,28 +85,13 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        invalid_properties.push('invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] data Value to be assigned
-    def data=(data)
-      if !data.nil? && data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        fail ArgumentError, 'invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.'
-      end
-
-      @data = data
     end
 
     # Checks equality by comparing each attribute.
@@ -109,10 +99,10 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          data == o.data &&
-          mime_type == o.mime_type &&
-          printed == o.printed &&
-          receipt_type == o.receipt_type
+          columns == o.columns &&
+          next_token == o.next_token &&
+          query_execution == o.query_execution &&
+          rows == o.rows
     end
 
     # @see the `==` method
@@ -124,7 +114,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [data, mime_type, printed, receipt_type].hash
+      [columns, next_token, query_execution, rows].hash
     end
 
     # Builds the object from hash

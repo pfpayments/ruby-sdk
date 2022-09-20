@@ -18,36 +18,32 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class RenderedTerminalReceipt
-    attr_accessor :data
+  # The schema of a single table in Analytics.
+  class AnalyticsSchemaTable
+    # The schemas of all columns of this table.
+    attr_accessor :columns
 
-    # The mime type indicates the format of the receipt document. The mime type depends on the requested receipt format.
-    attr_accessor :mime_type
+    # A human readable description of the entity type contained in this table.
+    attr_accessor :description
 
-    # The terminal might or might not print the receipt. This property is set to true when the configuration of the terminal forces the printing and the device supports the receipt printing.
-    attr_accessor :printed
-
-    # Each receipt has a different usage. The receipt type indicates for what resp. for whom the document is for.
-    attr_accessor :receipt_type
+    # The name of this table.
+    attr_accessor :table_name
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'data' => :'data',
-        :'mime_type' => :'mimeType',
-        :'printed' => :'printed',
-        :'receipt_type' => :'receiptType'
+        :'columns' => :'columns',
+        :'description' => :'description',
+        :'table_name' => :'tableName'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'data' => :'String',
-        :'mime_type' => :'String',
-        :'printed' => :'BOOLEAN',
-        :'receipt_type' => :'PaymentTerminalReceiptType'
+        :'columns' => :'Array<AnalyticsSchemaColumn>',
+        :'description' => :'Hash<String, String>',
+        :'table_name' => :'String'
       }
     end
 
@@ -59,20 +55,20 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'data')
-        self.data = attributes[:'data']
+      if attributes.has_key?(:'columns')
+        if (value = attributes[:'columns']).is_a?(Array)
+          self.columns = value
+        end
       end
 
-      if attributes.has_key?(:'mimeType')
-        self.mime_type = attributes[:'mimeType']
+      if attributes.has_key?(:'description')
+        if (value = attributes[:'description']).is_a?(Hash)
+          self.description = value
+        end
       end
 
-      if attributes.has_key?(:'printed')
-        self.printed = attributes[:'printed']
-      end
-
-      if attributes.has_key?(:'receiptType')
-        self.receipt_type = attributes[:'receiptType']
+      if attributes.has_key?(:'tableName')
+        self.table_name = attributes[:'tableName']
       end
     end
 
@@ -80,28 +76,13 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        invalid_properties.push('invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] data Value to be assigned
-    def data=(data)
-      if !data.nil? && data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        fail ArgumentError, 'invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.'
-      end
-
-      @data = data
     end
 
     # Checks equality by comparing each attribute.
@@ -109,10 +90,9 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          data == o.data &&
-          mime_type == o.mime_type &&
-          printed == o.printed &&
-          receipt_type == o.receipt_type
+          columns == o.columns &&
+          description == o.description &&
+          table_name == o.table_name
     end
 
     # @see the `==` method
@@ -124,7 +104,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [data, mime_type, printed, receipt_type].hash
+      [columns, description, table_name].hash
     end
 
     # Builds the object from hash

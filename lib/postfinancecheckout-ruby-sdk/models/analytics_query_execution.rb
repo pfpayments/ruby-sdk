@@ -18,36 +18,72 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class RenderedTerminalReceipt
-    attr_accessor :data
+  # Represents the execution of a query which has been submitted to Analytics.
+  class AnalyticsQueryExecution
+    # The account in which the query has been executed.
+    attr_accessor :account
 
-    # The mime type indicates the format of the receipt document. The mime type depends on the requested receipt format.
-    attr_accessor :mime_type
+    # The External ID of the query if one had been specified; otherwise null.
+    attr_accessor :external_id
 
-    # The terminal might or might not print the receipt. This property is set to true when the configuration of the terminal forces the printing and the device supports the receipt printing.
-    attr_accessor :printed
+    # The reason of the failure if and only if the query has failed, otherwise null.
+    attr_accessor :failure_reason
 
-    # Each receipt has a different usage. The receipt type indicates for what resp. for whom the document is for.
-    attr_accessor :receipt_type
+    # The ID is the primary key of the entity. The ID identifies the entity uniquely.
+    attr_accessor :id
+
+    # The time at which processing of the query has finished (either successfully or by failure or by cancelation). Will be null if the query execution has not finished yet.
+    attr_accessor :processing_end_time
+
+    # The time at which processing of the query has started (never null).
+    attr_accessor :processing_start_time
+
+    # The SQL statement which has been submitted for execution.
+    attr_accessor :query_string
+
+    # The amount of data scanned while processing the query (in GB). (Note that this amount may increase over time while the query is still being processed and not finished yet.)
+    attr_accessor :scanned_data_in_gb
+
+    # The maximal amount of scanned data that this query is allowed to scan. After this limit is reached query will be canceled by the system. 
+    attr_accessor :scanned_data_limit
+
+    # The spaces in which the query has been executed. May be empty if all spaces of the specified account have been queried.
+    attr_accessor :spaces
+
+    # The current state of the query execution.
+    attr_accessor :state
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'data' => :'data',
-        :'mime_type' => :'mimeType',
-        :'printed' => :'printed',
-        :'receipt_type' => :'receiptType'
+        :'account' => :'account',
+        :'external_id' => :'externalId',
+        :'failure_reason' => :'failureReason',
+        :'id' => :'id',
+        :'processing_end_time' => :'processingEndTime',
+        :'processing_start_time' => :'processingStartTime',
+        :'query_string' => :'queryString',
+        :'scanned_data_in_gb' => :'scannedDataInGb',
+        :'scanned_data_limit' => :'scannedDataLimit',
+        :'spaces' => :'spaces',
+        :'state' => :'state'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'data' => :'String',
-        :'mime_type' => :'String',
-        :'printed' => :'BOOLEAN',
-        :'receipt_type' => :'PaymentTerminalReceiptType'
+        :'account' => :'Integer',
+        :'external_id' => :'String',
+        :'failure_reason' => :'FailureReason',
+        :'id' => :'Integer',
+        :'processing_end_time' => :'DateTime',
+        :'processing_start_time' => :'DateTime',
+        :'query_string' => :'String',
+        :'scanned_data_in_gb' => :'Float',
+        :'scanned_data_limit' => :'Float',
+        :'spaces' => :'Array<Integer>',
+        :'state' => :'AnalyticsQueryExecutionState'
       }
     end
 
@@ -59,20 +95,50 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'data')
-        self.data = attributes[:'data']
+      if attributes.has_key?(:'account')
+        self.account = attributes[:'account']
       end
 
-      if attributes.has_key?(:'mimeType')
-        self.mime_type = attributes[:'mimeType']
+      if attributes.has_key?(:'externalId')
+        self.external_id = attributes[:'externalId']
       end
 
-      if attributes.has_key?(:'printed')
-        self.printed = attributes[:'printed']
+      if attributes.has_key?(:'failureReason')
+        self.failure_reason = attributes[:'failureReason']
       end
 
-      if attributes.has_key?(:'receiptType')
-        self.receipt_type = attributes[:'receiptType']
+      if attributes.has_key?(:'id')
+        self.id = attributes[:'id']
+      end
+
+      if attributes.has_key?(:'processingEndTime')
+        self.processing_end_time = attributes[:'processingEndTime']
+      end
+
+      if attributes.has_key?(:'processingStartTime')
+        self.processing_start_time = attributes[:'processingStartTime']
+      end
+
+      if attributes.has_key?(:'queryString')
+        self.query_string = attributes[:'queryString']
+      end
+
+      if attributes.has_key?(:'scannedDataInGb')
+        self.scanned_data_in_gb = attributes[:'scannedDataInGb']
+      end
+
+      if attributes.has_key?(:'scannedDataLimit')
+        self.scanned_data_limit = attributes[:'scannedDataLimit']
+      end
+
+      if attributes.has_key?(:'spaces')
+        if (value = attributes[:'spaces']).is_a?(Array)
+          self.spaces = value
+        end
+      end
+
+      if attributes.has_key?(:'state')
+        self.state = attributes[:'state']
       end
     end
 
@@ -80,28 +146,13 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        invalid_properties.push('invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@data.nil? && @data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] data Value to be assigned
-    def data=(data)
-      if !data.nil? && data !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        fail ArgumentError, 'invalid value for "data", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.'
-      end
-
-      @data = data
     end
 
     # Checks equality by comparing each attribute.
@@ -109,10 +160,17 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          data == o.data &&
-          mime_type == o.mime_type &&
-          printed == o.printed &&
-          receipt_type == o.receipt_type
+          account == o.account &&
+          external_id == o.external_id &&
+          failure_reason == o.failure_reason &&
+          id == o.id &&
+          processing_end_time == o.processing_end_time &&
+          processing_start_time == o.processing_start_time &&
+          query_string == o.query_string &&
+          scanned_data_in_gb == o.scanned_data_in_gb &&
+          scanned_data_limit == o.scanned_data_limit &&
+          spaces == o.spaces &&
+          state == o.state
     end
 
     # @see the `==` method
@@ -124,7 +182,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [data, mime_type, printed, receipt_type].hash
+      [account, external_id, failure_reason, id, processing_end_time, processing_start_time, query_string, scanned_data_in_gb, scanned_data_limit, spaces, state].hash
     end
 
     # Builds the object from hash
