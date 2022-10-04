@@ -12,6 +12,7 @@ class TestTransactionCreate < Test::Unit::TestCase
     PostFinanceCheckout.configure do |config|
       config.user_id = app_user_id
       config.authentication_key = app_user_key
+      config.default_headers = {"x-meta-header-ruby": 'value', "x-meta-header-ruby-2": 'value2'}
     end
 
     transaction_service = PostFinanceCheckout::TransactionService.new
