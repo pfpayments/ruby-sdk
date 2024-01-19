@@ -20,10 +20,10 @@ require 'date'
 module PostFinanceCheckout
   # 
   class CustomerCommentCreate
-    # 
+    # The comment's actual content.
     attr_accessor :content
 
-    # 
+    # The customer that the object belongs to.
     attr_accessor :customer
 
     # Attribute mapping from ruby-style variable name to JSON key.

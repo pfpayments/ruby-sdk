@@ -16,5 +16,5 @@ limitations under the License.
 =end
 
 module PostFinanceCheckout
-  VERSION = '3.3.0'
+  VERSION = '4.1.0'
 end

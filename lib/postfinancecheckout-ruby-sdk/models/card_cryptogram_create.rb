@@ -18,32 +18,27 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class DatabaseTranslatedString
+  # This model holds the additional card authentication.
+  class CardCryptogramCreate
     # 
-    attr_accessor :available_languages
+    attr_accessor :type
 
     # 
-    attr_accessor :display_name
-
-    # 
-    attr_accessor :items
+    attr_accessor :value
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'available_languages' => :'availableLanguages',
-        :'display_name' => :'displayName',
-        :'items' => :'items'
+        :'type' => :'type',
+        :'value' => :'value'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'available_languages' => :'Array<String>',
-        :'display_name' => :'String',
-        :'items' => :'Array<DatabaseTranslatedStringItem>'
+        :'type' => :'CardCryptogramType',
+        :'value' => :'String'
       }
     end
 
@@ -55,20 +50,12 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'availableLanguages')
-        if (value = attributes[:'availableLanguages']).is_a?(Array)
-          self.available_languages = value
-        end
+      if attributes.has_key?(:'type')
+        self.type = attributes[:'type']
       end
 
-      if attributes.has_key?(:'displayName')
-        self.display_name = attributes[:'displayName']
-      end
-
-      if attributes.has_key?(:'items')
-        if (value = attributes[:'items']).is_a?(Array)
-          self.items = value
-        end
+      if attributes.has_key?(:'value')
+        self.value = attributes[:'value']
       end
     end
 
@@ -76,12 +63,22 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @type.nil?
+        invalid_properties.push('invalid value for "type", type cannot be nil.')
+      end
+
+      if @value.nil?
+        invalid_properties.push('invalid value for "value", value cannot be nil.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if @type.nil?
+      return false if @value.nil?
       true
     end
 
@@ -90,9 +87,8 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          available_languages == o.available_languages &&
-          display_name == o.display_name &&
-          items == o.items
+          type == o.type &&
+          value == o.value
     end
 
     # @see the `==` method
@@ -104,7 +100,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [available_languages, display_name, items].hash
+      [type, value].hash
     end
 
     # Builds the object from hash

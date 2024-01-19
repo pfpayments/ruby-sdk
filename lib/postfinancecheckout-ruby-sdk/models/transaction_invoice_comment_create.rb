@@ -20,7 +20,7 @@ require 'date'
 module PostFinanceCheckout
   # 
   class TransactionInvoiceCommentCreate
-    # 
+    # The comment's actual content.
     attr_accessor :content
 
     # 

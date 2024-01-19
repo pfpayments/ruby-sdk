@@ -18,32 +18,42 @@ limitations under the License.
 require 'date'
 
 module PostFinanceCheckout
-  # 
-  class DatabaseTranslatedStringItem
-    # 
-    attr_accessor :language
+  # This model holds the cardholder authentication data (e.g. 3-D Secure authentication).
+  class CardholderAuthentication
+    # The authentication identifier as assigned by authentication system (e.g. XID or DSTransactionID).
+    attr_accessor :authentication_identifier
 
     # 
-    attr_accessor :language_code
+    attr_accessor :authentication_response
+
+    # The cardholder authentication value. Also known as Cardholder Authentication Verification Value (CAVV).
+    attr_accessor :authentication_value
+
+    # The Electronic Commerce Indicator (ECI) value. The ECI is returned by authentication system and indicates the outcome/status of authentication.
+    attr_accessor :electronic_commerce_indicator
 
     # 
-    attr_accessor :translation
+    attr_accessor :version
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'language' => :'language',
-        :'language_code' => :'languageCode',
-        :'translation' => :'translation'
+        :'authentication_identifier' => :'authenticationIdentifier',
+        :'authentication_response' => :'authenticationResponse',
+        :'authentication_value' => :'authenticationValue',
+        :'electronic_commerce_indicator' => :'electronicCommerceIndicator',
+        :'version' => :'version'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'language' => :'String',
-        :'language_code' => :'String',
-        :'translation' => :'String'
+        :'authentication_identifier' => :'String',
+        :'authentication_response' => :'CardAuthenticationResponse',
+        :'authentication_value' => :'String',
+        :'electronic_commerce_indicator' => :'String',
+        :'version' => :'CardAuthenticationVersion'
       }
     end
 
@@ -55,16 +65,24 @@ module PostFinanceCheckout
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'language')
-        self.language = attributes[:'language']
+      if attributes.has_key?(:'authenticationIdentifier')
+        self.authentication_identifier = attributes[:'authenticationIdentifier']
       end
 
-      if attributes.has_key?(:'languageCode')
-        self.language_code = attributes[:'languageCode']
+      if attributes.has_key?(:'authenticationResponse')
+        self.authentication_response = attributes[:'authenticationResponse']
       end
 
-      if attributes.has_key?(:'translation')
-        self.translation = attributes[:'translation']
+      if attributes.has_key?(:'authenticationValue')
+        self.authentication_value = attributes[:'authenticationValue']
+      end
+
+      if attributes.has_key?(:'electronicCommerceIndicator')
+        self.electronic_commerce_indicator = attributes[:'electronicCommerceIndicator']
+      end
+
+      if attributes.has_key?(:'version')
+        self.version = attributes[:'version']
       end
     end
 
@@ -72,28 +90,13 @@ module PostFinanceCheckout
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@translation.nil? && @translation.to_s.length > 16777216
-        invalid_properties.push('invalid value for "translation", the character length must be smaller than or equal to 16777216.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@translation.nil? && @translation.to_s.length > 16777216
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] translation Value to be assigned
-    def translation=(translation)
-      if !translation.nil? && translation.to_s.length > 16777216
-        fail ArgumentError, 'invalid value for "translation", the character length must be smaller than or equal to 16777216.'
-      end
-
-      @translation = translation
     end
 
     # Checks equality by comparing each attribute.
@@ -101,9 +104,11 @@ module PostFinanceCheckout
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          language == o.language &&
-          language_code == o.language_code &&
-          translation == o.translation
+          authentication_identifier == o.authentication_identifier &&
+          authentication_response == o.authentication_response &&
+          authentication_value == o.authentication_value &&
+          electronic_commerce_indicator == o.electronic_commerce_indicator &&
+          version == o.version
     end
 
     # @see the `==` method
@@ -115,7 +120,7 @@ module PostFinanceCheckout
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [language, language_code, translation].hash
+      [authentication_identifier, authentication_response, authentication_value, electronic_commerce_indicator, version].hash
     end
 
     # Builds the object from hash
