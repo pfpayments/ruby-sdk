@@ -8,7 +8,7 @@ The PostFinance Checkout Ruby library wraps around the PostFinance Checkout API.
 
 ## Requirements
 
-- Ruby 2.2+
+- Ruby 3.0.0+
 
 ## Installation
 
