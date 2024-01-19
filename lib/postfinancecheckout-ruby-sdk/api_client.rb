@@ -102,7 +102,7 @@ module PostFinanceCheckout
       http_method = http_method.to_sym.downcase
 
       default_headers = {
-        'x-meta-sdk-version': "4.2.0",
+        'x-meta-sdk-version': "4.3.0",
         'x-meta-sdk-language': "ruby",
         'x-meta-sdk-provider': "PostFinance Checkout",
         'x-meta-sdk-language-version': RUBY_VERSION
