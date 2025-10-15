@@ -26,7 +26,7 @@ module PostFinanceCheckout
     # A unique identifier for the object.
     attr_accessor :id
 
-    # 
+    # The localized label that describes the action triggered by the configuration type.
     attr_accessor :label
 
     # The localized name of the object.
