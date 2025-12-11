@@ -24,14 +24,43 @@ require 'date'
 require 'time'
 
 module PostfinancecheckoutRubySdk
-  class SubscriptionUpdateRequest
-    # A description used to identify the subscription.
-    attr_accessor :description
+  # Represents the aggregated summary of Dynamic Currency Conversion (DCC) transactions grouped by brand and currency combinations in a transaction summary receipt.
+  class PaymentTerminalDccTransactionSum
+    # The original currency of the transactions before DCC conversion (typically the merchant's local currency).
+    attr_accessor :transaction_currency
+
+    # The total sum of all transactions in the original transaction currency (the amount in merchant's local currency before DCC conversion).
+    attr_accessor :transaction_amount
+
+    # The total sum of all transactions in the converted DCC currency (the amount paid by customers in their chosen currency).
+    attr_accessor :dcc_amount
+
+    # A unique identifier for the object.
+    attr_accessor :id
+
+    # The total count of DCC transactions processed for this specific brand and currency combination.
+    attr_accessor :transaction_count
+
+    # The converted currency used in DCC transactions (the currency chosen by the customer for payment).
+    attr_accessor :dcc_currency
+
+    # The payment brand for which these DCC transactions are summarized.
+    attr_accessor :brand
+
+    # The version is used for optimistic locking and incremented whenever the object is updated.
+    attr_accessor :version
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'description' => :'description'
+        :'transaction_currency' => :'transactionCurrency',
+        :'transaction_amount' => :'transactionAmount',
+        :'dcc_amount' => :'dccAmount',
+        :'id' => :'id',
+        :'transaction_count' => :'transactionCount',
+        :'dcc_currency' => :'dccCurrency',
+        :'brand' => :'brand',
+        :'version' => :'version'
       }
     end
 
@@ -48,7 +77,14 @@ module PostfinancecheckoutRubySdk
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'description' => :'String'
+        :'transaction_currency' => :'String',
+        :'transaction_amount' => :'Float',
+        :'dcc_amount' => :'Float',
+        :'id' => :'Integer',
+        :'transaction_count' => :'Integer',
+        :'dcc_currency' => :'String',
+        :'brand' => :'String',
+        :'version' => :'Integer'
       }
     end
 
@@ -62,20 +98,48 @@ module PostfinancecheckoutRubySdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::PaymentTerminalDccTransactionSum` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::PaymentTerminalDccTransactionSum`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
+      if attributes.key?(:'transaction_currency')
+        self.transaction_currency = attributes[:'transaction_currency']
+      end
+
+      if attributes.key?(:'transaction_amount')
+        self.transaction_amount = attributes[:'transaction_amount']
+      end
+
+      if attributes.key?(:'dcc_amount')
+        self.dcc_amount = attributes[:'dcc_amount']
+      end
+
+      if attributes.key?(:'id')
+        self.id = attributes[:'id']
+      end
+
+      if attributes.key?(:'transaction_count')
+        self.transaction_count = attributes[:'transaction_count']
+      end
+
+      if attributes.key?(:'dcc_currency')
+        self.dcc_currency = attributes[:'dcc_currency']
+      end
+
+      if attributes.key?(:'brand')
+        self.brand = attributes[:'brand']
+      end
+
+      if attributes.key?(:'version')
+        self.version = attributes[:'version']
       end
     end
 
@@ -84,10 +148,6 @@ module PostfinancecheckoutRubySdk
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if !@description.nil? && @description.to_s.length > 200
-        invalid_properties.push('invalid value for "description", the character length must be smaller than or equal to 200.')
-      end
-
       invalid_properties
     end
 
@@ -95,22 +155,7 @@ module PostfinancecheckoutRubySdk
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if !@description.nil? && @description.to_s.length > 200
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] description Value to be assigned
-    def description=(description)
-      if description.nil?
-        fail ArgumentError, 'description cannot be nil'
-      end
-
-      if description.to_s.length > 200
-        fail ArgumentError, 'invalid value for "description", the character length must be smaller than or equal to 200.'
-      end
-
-      @description = description
     end
 
     # Checks equality by comparing each attribute.
@@ -118,7 +163,14 @@ module PostfinancecheckoutRubySdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          description == o.description
+          transaction_currency == o.transaction_currency &&
+          transaction_amount == o.transaction_amount &&
+          dcc_amount == o.dcc_amount &&
+          id == o.id &&
+          transaction_count == o.transaction_count &&
+          dcc_currency == o.dcc_currency &&
+          brand == o.brand &&
+          version == o.version
     end
 
     # @see the `==` method
@@ -130,7 +182,7 @@ module PostfinancecheckoutRubySdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description].hash
+      [transaction_currency, transaction_amount, dcc_amount, id, transaction_count, dcc_currency, brand, version].hash
     end
 
     # Builds the object from hash

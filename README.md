@@ -1018,6 +1018,26 @@ Web API client: [*link*](https://checkout.postfinance.ch//api/client)<br>
   &nbsp;&nbsp;&nbsp;&nbsp;<strong>GET</strong> /payment/sales-channels/search
   &nbsp;&nbsp;&nbsp;&nbsp;Search payment sales channels.
   <br><br>
+- <strong>PaymentTerminalTransactionSummariesService</strong><br>
+  &nbsp;&nbsp;* <code>get_payment_terminals_transaction_summaries</code>
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>GET</strong> /payment/terminals/transaction-summaries
+  &nbsp;&nbsp;&nbsp;&nbsp;List all summaries
+  <br><br>
+- <strong>PaymentTerminalTransactionSummariesService</strong><br>
+  &nbsp;&nbsp;* <code>get_payment_terminals_transaction_summaries_id</code>
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>GET</strong> /payment/terminals/transaction-summaries/{id}
+  &nbsp;&nbsp;&nbsp;&nbsp;Retrieve a summary
+  <br><br>
+- <strong>PaymentTerminalTransactionSummariesService</strong><br>
+  &nbsp;&nbsp;* <code>get_payment_terminals_transaction_summaries_id_receipt</code>
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>GET</strong> /payment/terminals/transaction-summaries/{id}/receipt
+  &nbsp;&nbsp;&nbsp;&nbsp;Retrieve a rendered summary receipt
+  <br><br>
+- <strong>PaymentTerminalTransactionSummariesService</strong><br>
+  &nbsp;&nbsp;* <code>get_payment_terminals_transaction_summaries_search</code>
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>GET</strong> /payment/terminals/transaction-summaries/search
+  &nbsp;&nbsp;&nbsp;&nbsp;Search summaries
+  <br><br>
 - <strong>PaymentTerminalsService</strong><br>
   &nbsp;&nbsp;* <code>delete_payment_terminals_id</code>
   &nbsp;&nbsp;&nbsp;&nbsp;<strong>DELETE</strong> /payment/terminals/{id}
@@ -2704,6 +2724,7 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>PaymentTerminalConfigurationVersion</strong>
 * <strong>PaymentTerminalConfigurationVersionState</strong>
 * <strong>PaymentTerminalCreate</strong>
+* <strong>PaymentTerminalDccTransactionSum</strong>
 * <strong>PaymentTerminalLocation</strong>
 * <strong>PaymentTerminalLocationState</strong>
 * <strong>PaymentTerminalLocationVersion</strong>
@@ -2711,6 +2732,8 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>PaymentTerminalPreparing</strong>
 * <strong>PaymentTerminalReceiptType</strong>
 * <strong>PaymentTerminalState</strong>
+* <strong>PaymentTerminalTransactionSum</strong>
+* <strong>PaymentTerminalTransactionSummary</strong>
 * <strong>PaymentTerminalTransactionSummaryReference</strong>
 * <strong>PaymentTerminalType</strong>
 * <strong>PaymentTerminalUpdate</strong>
@@ -2770,6 +2793,7 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>RenderedDocument</strong>
 * <strong>RenderedTerminalReceipt</strong>
 * <strong>RenderedTerminalReceiptListResponse</strong>
+* <strong>RenderedTerminalTransactionSummary</strong>
 * <strong>RestAddressFormat</strong>
 * <strong>RestAddressFormatField</strong>
 * <strong>RestApiBulkOperationResult</strong>
@@ -2895,6 +2919,8 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>TerminalListResponse</strong>
 * <strong>TerminalReceiptFormat</strong>
 * <strong>TerminalSearchResponse</strong>
+* <strong>TerminalTransactionSummaryListResponse</strong>
+* <strong>TerminalTransactionSummarySearchResponse</strong>
 * <strong>Token</strong>
 * <strong>TokenCreate</strong>
 * <strong>TokenListResponse</strong>
@@ -2975,40 +3001,20 @@ When working with webhooks, the `PostfinancecheckoutRubySdk::PostFinanceCheckout
 
 ### Error Code Categories
 
-| **Range** | **Category** | **Description** |
-|-----------|--------------|-----------------|
-| **404** | Not Found | Indicates that the requested resource could not be found or the endpoint returned an empty response |
-| **1000–1999** | Client-Side Errors | Errors typically caused by invalid input |
-| **2000–2999** | Server-Side Errors | Errors typically caused by incorrect data provided by the server |
-
-### Error Code Reference
-
-| **Code** | **Error Name** | **Description** | **Category** |
-|----------|----------------|-----------------|--------------|
-| 404 | `UNKNOWN_WEBHOOK_ENCRYPTION_PUBLIC_KEY` | Unknown webhook signature public key | Not Found |
-| 1000 | `WEBHOOK_ENCRYPTION_GENERAL_ERROR` | General webhook encryption error | Client-Side |
-| 1001 | `INVALID_WEBHOOK_ENCRYPTION_PUBLIC_KEY` | Invalid webhook signature public key | Client-Side |
-| 1002 | `INVALID_WEBHOOK_ENCRYPTION_HEADER_FORMAT` | Invalid webhook signature header | Client-Side |
-| 1003 | `UNSUPPORTED_WEBHOOK_ENCRYPTION_ALGORYTHM` | Unsupported webhook signature algorithm | Client-Side |
-| 1004 | `UNKNOWN_WEBHOOK_ENCRYPTION_PROVIDER` | Unknown webhook encryption provider | Client-Side |
-| 1005 | `WEBHOOK_ENCRYPTION_VERIFIER_INIT_ERROR` | Encryption verifier initialization error | Client-Side |
-| 1006 | `WEBHOOK_ENCRYPTION_VERIFIER_CONTENT_UPDATE_ERROR` | Error during content update in encryption verifier | Client-Side |
-| 1007 | `WEBHOOK_ENCRYPTION_SIGNATURE_VERIFICATION_FAILED` | Encryption signature verification failed | Client-Side |
-| 1008 | `INVALID_WEBHOOK_ENCRYPTION_CONTENT_SIGNATURE` | Invalid webhook content signature | Client-Side |
-| 2000 | `MISSING_WEBHOOK_ENCRYPTION_ALGORYTHM` | Missing webhook signature algorithm value | Server-Side |
+| **Exception**              | **Description**                                                                       |
+|----------------------------|---------------------------------------------------------------------------------------|
+| **ApiExceptionErrorCodes** | Lists the possible HTTP error codes an `ApiException` can generate                    |
+| **SdkExceptionErrorCodes** | Lists the possible error codes a `PostFinanceCheckoutSdkException` can generate |
 
 ### Usage Example
 ```ruby
 begin
-  # Webhook SDK operation
-rescue PostFinanceCheckoutSdkException => e
-  case e.code
-    when 1001
-        # Handle invalid public key
-    when 1007
-        # Handle signature verification failure
+  # SDK operation
+rescue PostfinancecheckoutRubySdk::ApiError => ex
+  if PostfinancecheckoutRubySdk::ApiExceptionErrorCodes.is?(ex, PostfinancecheckoutRubySdk::ApiExceptionErrorCodes::CONFLICT)
+    # Conflict error handling
   else
-    # Handle other errors
+    # Other error handling
   end
 end
 ```

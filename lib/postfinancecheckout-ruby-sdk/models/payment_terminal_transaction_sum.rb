@@ -24,14 +24,55 @@ require 'date'
 require 'time'
 
 module PostfinancecheckoutRubySdk
-  class SubscriptionUpdateRequest
-    # A description used to identify the subscription.
-    attr_accessor :description
+  # Represents the aggregated transaction data for a specific brand and currency, including regular and DCC (Dynamic Currency Conversion) transactions.
+  class PaymentTerminalTransactionSum
+    # The total amount of tips from regular (non-DCC) transactions in the transaction currency.
+    attr_accessor :transaction_tip_amount
+
+    # The product within the brand for which transactions are summarized.
+    attr_accessor :product
+
+    # The base currency in which the transactions were processed and settled, excluding any DCC conversions.
+    attr_accessor :transaction_currency
+
+    # The total monetary value of all transactions in the transaction currency, excluding DCC transactions.
+    attr_accessor :transaction_amount
+
+    # The total amount of tips from DCC transactions, converted and presented in the transaction currency.
+    attr_accessor :dcc_tip_amount
+
+    # A unique identifier for the object.
+    attr_accessor :id
+
+    # The total count of regular (non-DCC) transactions processed within this summary period.
+    attr_accessor :transaction_count
+
+    # The payment brand for which the transactions are summarized.
+    attr_accessor :brand
+
+    # The number of transactions where Dynamic Currency Conversion (DCC) was applied, allowing customers to pay in their home currency.
+    attr_accessor :dcc_transaction_count
+
+    # The version is used for optimistic locking and incremented whenever the object is updated.
+    attr_accessor :version
+
+    # The total monetary value of DCC transactions, converted and presented in the transaction currency.
+    attr_accessor :dcc_transaction_amount
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'description' => :'description'
+        :'transaction_tip_amount' => :'transactionTipAmount',
+        :'product' => :'product',
+        :'transaction_currency' => :'transactionCurrency',
+        :'transaction_amount' => :'transactionAmount',
+        :'dcc_tip_amount' => :'dccTipAmount',
+        :'id' => :'id',
+        :'transaction_count' => :'transactionCount',
+        :'brand' => :'brand',
+        :'dcc_transaction_count' => :'dccTransactionCount',
+        :'version' => :'version',
+        :'dcc_transaction_amount' => :'dccTransactionAmount'
       }
     end
 
@@ -48,7 +89,17 @@ module PostfinancecheckoutRubySdk
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'description' => :'String'
+        :'transaction_tip_amount' => :'Float',
+        :'product' => :'String',
+        :'transaction_currency' => :'String',
+        :'transaction_amount' => :'Float',
+        :'dcc_tip_amount' => :'Float',
+        :'id' => :'Integer',
+        :'transaction_count' => :'Integer',
+        :'brand' => :'String',
+        :'dcc_transaction_count' => :'Integer',
+        :'version' => :'Integer',
+        :'dcc_transaction_amount' => :'Float'
       }
     end
 
@@ -62,20 +113,60 @@ module PostfinancecheckoutRubySdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::PaymentTerminalTransactionSum` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::PaymentTerminalTransactionSum`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
+      if attributes.key?(:'transaction_tip_amount')
+        self.transaction_tip_amount = attributes[:'transaction_tip_amount']
+      end
+
+      if attributes.key?(:'product')
+        self.product = attributes[:'product']
+      end
+
+      if attributes.key?(:'transaction_currency')
+        self.transaction_currency = attributes[:'transaction_currency']
+      end
+
+      if attributes.key?(:'transaction_amount')
+        self.transaction_amount = attributes[:'transaction_amount']
+      end
+
+      if attributes.key?(:'dcc_tip_amount')
+        self.dcc_tip_amount = attributes[:'dcc_tip_amount']
+      end
+
+      if attributes.key?(:'id')
+        self.id = attributes[:'id']
+      end
+
+      if attributes.key?(:'transaction_count')
+        self.transaction_count = attributes[:'transaction_count']
+      end
+
+      if attributes.key?(:'brand')
+        self.brand = attributes[:'brand']
+      end
+
+      if attributes.key?(:'dcc_transaction_count')
+        self.dcc_transaction_count = attributes[:'dcc_transaction_count']
+      end
+
+      if attributes.key?(:'version')
+        self.version = attributes[:'version']
+      end
+
+      if attributes.key?(:'dcc_transaction_amount')
+        self.dcc_transaction_amount = attributes[:'dcc_transaction_amount']
       end
     end
 
@@ -84,10 +175,6 @@ module PostfinancecheckoutRubySdk
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if !@description.nil? && @description.to_s.length > 200
-        invalid_properties.push('invalid value for "description", the character length must be smaller than or equal to 200.')
-      end
-
       invalid_properties
     end
 
@@ -95,22 +182,7 @@ module PostfinancecheckoutRubySdk
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if !@description.nil? && @description.to_s.length > 200
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] description Value to be assigned
-    def description=(description)
-      if description.nil?
-        fail ArgumentError, 'description cannot be nil'
-      end
-
-      if description.to_s.length > 200
-        fail ArgumentError, 'invalid value for "description", the character length must be smaller than or equal to 200.'
-      end
-
-      @description = description
     end
 
     # Checks equality by comparing each attribute.
@@ -118,7 +190,17 @@ module PostfinancecheckoutRubySdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          description == o.description
+          transaction_tip_amount == o.transaction_tip_amount &&
+          product == o.product &&
+          transaction_currency == o.transaction_currency &&
+          transaction_amount == o.transaction_amount &&
+          dcc_tip_amount == o.dcc_tip_amount &&
+          id == o.id &&
+          transaction_count == o.transaction_count &&
+          brand == o.brand &&
+          dcc_transaction_count == o.dcc_transaction_count &&
+          version == o.version &&
+          dcc_transaction_amount == o.dcc_transaction_amount
     end
 
     # @see the `==` method
@@ -130,7 +212,7 @@ module PostfinancecheckoutRubySdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description].hash
+      [transaction_tip_amount, product, transaction_currency, transaction_amount, dcc_tip_amount, id, transaction_count, brand, dcc_transaction_count, version, dcc_transaction_amount].hash
     end
 
     # Builds the object from hash

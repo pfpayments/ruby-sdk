@@ -24,14 +24,22 @@ require 'date'
 require 'time'
 
 module PostfinancecheckoutRubySdk
-  class SubscriptionUpdateRequest
-    # A description used to identify the subscription.
-    attr_accessor :description
+  class TerminalTransactionSummaryListResponse
+    # An array containing the actual response objects.
+    attr_accessor :data
+
+    # Whether there are more objects available after this set. If false, there are no more objects to retrieve.
+    attr_accessor :has_more
+
+    # The applied limit on the number of objects returned.
+    attr_accessor :limit
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'description' => :'description'
+        :'data' => :'data',
+        :'has_more' => :'hasMore',
+        :'limit' => :'limit'
       }
     end
 
@@ -48,7 +56,9 @@ module PostfinancecheckoutRubySdk
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'description' => :'String'
+        :'data' => :'Array<PaymentTerminalTransactionSummary>',
+        :'has_more' => :'Boolean',
+        :'limit' => :'Integer'
       }
     end
 
@@ -62,20 +72,30 @@ module PostfinancecheckoutRubySdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::TerminalTransactionSummaryListResponse` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::TerminalTransactionSummaryListResponse`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
+      if attributes.key?(:'data')
+        if (value = attributes[:'data']).is_a?(Array)
+          self.data = value
+        end
+      end
+
+      if attributes.key?(:'has_more')
+        self.has_more = attributes[:'has_more']
+      end
+
+      if attributes.key?(:'limit')
+        self.limit = attributes[:'limit']
       end
     end
 
@@ -84,10 +104,6 @@ module PostfinancecheckoutRubySdk
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if !@description.nil? && @description.to_s.length > 200
-        invalid_properties.push('invalid value for "description", the character length must be smaller than or equal to 200.')
-      end
-
       invalid_properties
     end
 
@@ -95,22 +111,7 @@ module PostfinancecheckoutRubySdk
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if !@description.nil? && @description.to_s.length > 200
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] description Value to be assigned
-    def description=(description)
-      if description.nil?
-        fail ArgumentError, 'description cannot be nil'
-      end
-
-      if description.to_s.length > 200
-        fail ArgumentError, 'invalid value for "description", the character length must be smaller than or equal to 200.'
-      end
-
-      @description = description
     end
 
     # Checks equality by comparing each attribute.
@@ -118,7 +119,9 @@ module PostfinancecheckoutRubySdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          description == o.description
+          data == o.data &&
+          has_more == o.has_more &&
+          limit == o.limit
     end
 
     # @see the `==` method
@@ -130,7 +133,7 @@ module PostfinancecheckoutRubySdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description].hash
+      [data, has_more, limit].hash
     end
 
     # Builds the object from hash
