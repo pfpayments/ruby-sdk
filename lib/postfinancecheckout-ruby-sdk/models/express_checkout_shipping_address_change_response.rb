@@ -24,26 +24,16 @@ require 'date'
 require 'time'
 
 module PostfinancecheckoutRubySdk
-  class SubscriptionUpdateRequest
-    # The configurations of the subscription's components.
-    attr_accessor :component_configurations
+  class ExpressCheckoutShippingAddressChangeResponse
+    attr_accessor :order_total
 
-    # The product to subscribe to.
-    attr_accessor :product
-
-    # The three-letter code (ISO 4217 format) of the currency used to invoice the customer. Must be one of the currencies supported by the product.
-    attr_accessor :currency
-
-    # Whether the subscriptions' termination periods should be respected.
-    attr_accessor :respect_termination_period
+    attr_accessor :shipping_options
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'component_configurations' => :'componentConfigurations',
-        :'product' => :'product',
-        :'currency' => :'currency',
-        :'respect_termination_period' => :'respectTerminationPeriod'
+        :'order_total' => :'orderTotal',
+        :'shipping_options' => :'shippingOptions'
       }
     end
 
@@ -60,10 +50,8 @@ module PostfinancecheckoutRubySdk
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'component_configurations' => :'Array<SubscriptionComponentReferenceConfiguration>',
-        :'product' => :'Integer',
-        :'currency' => :'String',
-        :'respect_termination_period' => :'Boolean'
+        :'order_total' => :'Float',
+        :'shipping_options' => :'Array<ExpressCheckoutShippingOption>'
       }
     end
 
@@ -77,34 +65,26 @@ module PostfinancecheckoutRubySdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::ExpressCheckoutShippingAddressChangeResponse` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::SubscriptionUpdateRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::ExpressCheckoutShippingAddressChangeResponse`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'component_configurations')
-        if (value = attributes[:'component_configurations']).is_a?(Array)
-          self.component_configurations = value
+      if attributes.key?(:'order_total')
+        self.order_total = attributes[:'order_total']
+      end
+
+      if attributes.key?(:'shipping_options')
+        if (value = attributes[:'shipping_options']).is_a?(Array)
+          self.shipping_options = value
         end
-      end
-
-      if attributes.key?(:'product')
-        self.product = attributes[:'product']
-      end
-
-      if attributes.key?(:'currency')
-        self.currency = attributes[:'currency']
-      end
-
-      if attributes.key?(:'respect_termination_period')
-        self.respect_termination_period = attributes[:'respect_termination_period']
       end
     end
 
@@ -123,25 +103,13 @@ module PostfinancecheckoutRubySdk
       true
     end
 
-    # Custom attribute writer method with validation
-    # @param [Object] component_configurations Value to be assigned
-    def component_configurations=(component_configurations)
-      if component_configurations.nil?
-        fail ArgumentError, 'component_configurations cannot be nil'
-      end
-
-      @component_configurations = component_configurations
-    end
-
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          component_configurations == o.component_configurations &&
-          product == o.product &&
-          currency == o.currency &&
-          respect_termination_period == o.respect_termination_period
+          order_total == o.order_total &&
+          shipping_options == o.shipping_options
     end
 
     # @see the `==` method
@@ -153,7 +121,7 @@ module PostfinancecheckoutRubySdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [component_configurations, product, currency, respect_termination_period].hash
+      [order_total, shipping_options].hash
     end
 
     # Builds the object from hash
