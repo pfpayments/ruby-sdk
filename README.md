@@ -949,6 +949,11 @@ Web API client: [*link*](https://checkout.postfinance.ch//api/client)<br>
   &nbsp;&nbsp;&nbsp;&nbsp;List all members of the space
   <br><br>
 - <strong>MerchantApplicationsService</strong><br>
+  &nbsp;&nbsp;* <code>get_onboarding_merchant_applications_by_account</code>
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>GET</strong> /onboarding/merchant-applications/by-account
+  &nbsp;&nbsp;&nbsp;&nbsp;Retrieve a merchant application by account
+  <br><br>
+- <strong>MerchantApplicationsService</strong><br>
   &nbsp;&nbsp;* <code>get_onboarding_merchant_applications_id_status</code>
   &nbsp;&nbsp;&nbsp;&nbsp;<strong>GET</strong> /onboarding/merchant-applications/{id}/status
   &nbsp;&nbsp;&nbsp;&nbsp;Retrieve a merchant application status
@@ -967,6 +972,11 @@ Web API client: [*link*](https://checkout.postfinance.ch//api/client)<br>
   &nbsp;&nbsp;* <code>post_onboarding_merchant_applications</code>
   &nbsp;&nbsp;&nbsp;&nbsp;<strong>POST</strong> /onboarding/merchant-applications
   &nbsp;&nbsp;&nbsp;&nbsp;Create a merchant application
+  <br><br>
+- <strong>MerchantApplicationsService</strong><br>
+  &nbsp;&nbsp;* <code>post_onboarding_merchant_applications_id_submit</code>
+  &nbsp;&nbsp;&nbsp;&nbsp;<strong>POST</strong> /onboarding/merchant-applications/{id}/submit
+  &nbsp;&nbsp;&nbsp;&nbsp;Submit a merchant application and create an organization
   <br><br>
 - <strong>PaymentConnectorConfigurationsService</strong><br>
   &nbsp;&nbsp;* <code>delete_payment_connector_configurations_id</code>
@@ -2890,6 +2900,8 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>MerchantApplicationDataDto</strong>
 * <strong>MerchantApplicationState</strong>
 * <strong>MerchantApplicationStatusDto</strong>
+* <strong>MerchantApplicationSubmitRequestDto</strong>
+* <strong>MerchantApplicationSubmittedDto</strong>
 * <strong>MerchantBankDetailsDto</strong>
 * <strong>MerchantCompanyDetailsDto</strong>
 * <strong>MerchantContractRevenueDto</strong>
@@ -2975,7 +2987,7 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>PaymentTerminalTransactionSummary</strong>
 * <strong>PaymentTerminalTransactionSummaryReference</strong>
 * <strong>PaymentTerminalType</strong>
-* <strong>PaymentTerminalUpdate</strong>
+* <strong>PaymentTerminalUpdateRequest</strong>
 * <strong>PayoutAccountInfo</strong>
 * <strong>Permission</strong>
 * <strong>PermissionListResponse</strong>
@@ -3130,6 +3142,7 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>SubscriptionMetricUpdate</strong>
 * <strong>SubscriptionMetricUsageReport</strong>
 * <strong>SubscriptionMetricUsageReportCreate</strong>
+* <strong>SubscriptionPartialUpdateRequest</strong>
 * <strong>SubscriptionPending</strong>
 * <strong>SubscriptionPeriodBill</strong>
 * <strong>SubscriptionPeriodBillListResponse</strong>
@@ -3195,6 +3208,7 @@ Additional Api models documentation: [*link*](https://checkout.postfinance.ch/en
 * <strong>TokenizedCardRequest</strong>
 * <strong>TrackingNumberRequest</strong>
 * <strong>Transaction</strong>
+* <strong>TransactionAmounts</strong>
 * <strong>TransactionClientPlatformInformation</strong>
 * <strong>TransactionComment</strong>
 * <strong>TransactionCommentActive</strong>

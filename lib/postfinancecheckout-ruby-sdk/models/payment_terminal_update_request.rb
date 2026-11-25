@@ -24,16 +24,20 @@ require 'date'
 require 'time'
 
 module PostfinancecheckoutRubySdk
-  class PaymentTerminalUpdate
+  class PaymentTerminalUpdateRequest
+    # The configuration that is assigned to the terminal and determines how it works.
+    attr_accessor :configuration
+
     # The name used to identify the payment terminal.
     attr_accessor :name
 
-    # The version number indicates the version of the entity. The version is incremented whenever the entity is changed.
+    # The version is used for optimistic locking and incremented whenever the payment terminal is updated.
     attr_accessor :version
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'configuration' => :'configuration',
         :'name' => :'name',
         :'version' => :'version'
       }
@@ -52,6 +56,7 @@ module PostfinancecheckoutRubySdk
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'configuration' => :'Integer',
         :'name' => :'String',
         :'version' => :'Integer'
       }
@@ -67,17 +72,21 @@ module PostfinancecheckoutRubySdk
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::PaymentTerminalUpdate` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `PostfinancecheckoutRubySdk::PaymentTerminalUpdateRequest` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::PaymentTerminalUpdate`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `PostfinancecheckoutRubySdk::PaymentTerminalUpdateRequest`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'configuration')
+        self.configuration = attributes[:'configuration']
+      end
 
       if attributes.key?(:'name')
         self.name = attributes[:'name']
@@ -85,8 +94,6 @@ module PostfinancecheckoutRubySdk
 
       if attributes.key?(:'version')
         self.version = attributes[:'version']
-      else
-        self.version = nil
       end
     end
 
@@ -95,14 +102,6 @@ module PostfinancecheckoutRubySdk
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if !@name.nil? && @name.to_s.length > 100
-        invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 100.')
-      end
-
-      if @version.nil?
-        invalid_properties.push('invalid value for "version", version cannot be nil.')
-      end
-
       invalid_properties
     end
 
@@ -110,33 +109,7 @@ module PostfinancecheckoutRubySdk
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if !@name.nil? && @name.to_s.length > 100
-      return false if @version.nil?
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] name Value to be assigned
-    def name=(name)
-      if name.nil?
-        fail ArgumentError, 'name cannot be nil'
-      end
-
-      if name.to_s.length > 100
-        fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 100.'
-      end
-
-      @name = name
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] version Value to be assigned
-    def version=(version)
-      if version.nil?
-        fail ArgumentError, 'version cannot be nil'
-      end
-
-      @version = version
     end
 
     # Checks equality by comparing each attribute.
@@ -144,6 +117,7 @@ module PostfinancecheckoutRubySdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          configuration == o.configuration &&
           name == o.name &&
           version == o.version
     end
@@ -157,7 +131,7 @@ module PostfinancecheckoutRubySdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, version].hash
+      [configuration, name, version].hash
     end
 
     # Builds the object from hash
